@@ -9,7 +9,7 @@
   <meta property="og:description" content="两个视角，一个故事。探索同框的三种拍摄模式与动态产品演示。">
   <meta property="og:image" content="https://calibg.github.io/tongkuang/assets/icon.png">
   <link rel="icon" href="assets/favicon.png"><link rel="apple-touch-icon" href="assets/icon.png">
-  <link rel="stylesheet" href="style.css"><script src="app.js" defer></script>
+  <link rel="stylesheet" href="style.css?v=2"><script src="app.js?v=2" type="module"></script>
 </head>
 <body>
 <a class="skip" href="#main">跳到主要内容</a>
@@ -49,16 +49,17 @@
   </div>
 </section>
 <section class="experience section" id="experience" aria-labelledby="experience-title">
-<div class="wrap"><div class="experience-heading"><div><p class="eyebrow">不止看见，点开体验</p><h2 id="experience-title">让同框，动起来。</h2></div><p>从镜头里的瞬间，到设计背后的细节。<br>选择一个章节，亲手展开。</p></div>
+<div class="wrap"><div class="experience-heading"><div><p class="eyebrow">动画，跟着你的手指走</p><h2 id="experience-title">让同框，动起来。</h2></div><p>从镜头里的瞬间，到设计背后的细节。<br>左右拖动，亲手展开。</p></div>
 <div class="chapter-tabs" role="tablist" aria-label="演示章节">
   <button role="tab" id="chapter-intro" aria-selected="true" aria-controls="story-panel" data-scene="0">动态介绍 <span>01</span></button>
   <button role="tab" id="chapter-design" aria-selected="false" aria-controls="story-panel" tabindex="-1" data-scene="2">设计全景 <span>02</span></button>
 </div>
 <div id="story-panel" role="tabpanel" aria-labelledby="chapter-intro" class="story-panel">
-  <div class="story-stage" id="story-stage"><img id="story-poster" src="assets/story-intro.webp" alt="同框动态介绍：前后镜头同步记录滑板瞬间" width="1280" height="720" loading="lazy"><button class="story-start" id="story-start"><span class="big-play" aria-hidden="true">▶</span><span id="play-label">播放动态介绍</span></button></div>
-  <div class="story-toolbar"><p id="story-status" role="status">点按播放，观看实拍视频与文字动画。</p><div class="story-controls"><button id="story-replay" disabled aria-label="重新播放当前章节">↻ <span>重播</span></button><button id="story-sound" disabled aria-pressed="false">声音：关</button><button id="story-fullscreen">全屏 <span aria-hidden="true">⛶</span></button></div></div>
+  <div class="story-stage scrub-stage" id="story-stage" aria-describedby="drag-instructions"><img id="story-poster" src="assets/story-intro.webp" alt="向右拖动，控制同框的实拍视频和文字动画" width="1280" height="720" loading="lazy"><div id="story-viewport" aria-hidden="true"></div><span class="drag-hint" id="drag-hint" aria-hidden="true">← 左右拖动，展开画面 →</span></div>
+  <div class="scrub-track"><label for="story-progress">拖动探索</label><input id="story-progress" type="range" min="0" max="1000" value="0" step="1" aria-label="拖动控制动画进度"><output id="story-percent" for="story-progress">0%</output></div>
+  <div class="story-toolbar"><p id="story-status" role="status">向右展开，向左倒回；松手停在当前画面。</p><div class="story-controls"><button id="story-auto" aria-pressed="false">自动演示</button><button id="story-replay">重置</button><button id="story-fullscreen">全屏</button></div></div>
 </div>
-<p class="story-note">支持点击播放、章节切换与重播。设计全景保留从单一画面展开到完整设计的原始动态效果。<a id="story-direct" href="story/#0" target="_blank" rel="noopener">独立窗口观看 ↗</a></p>
+<p class="story-note" id="drag-instructions">在画面上左右拖动，或用下方进度条控制动画。支持鼠标、触屏和键盘方向键。<a id="story-direct" href="story/#0" target="_blank" rel="noopener">查看原始演示 ↗</a></p>
 </div></section>
 <section class="download section wrap" id="download" aria-labelledby="download-title"><div class="download-heading"><img src="assets/icon.png" alt="同框 App 图标" width="76" height="76" loading="lazy"><p class="eyebrow">下一段故事，从这里开始</p><h2 id="download-title">一起，入镜。</h2><p>把同框放进口袋，记录属于你的两个视角。</p></div>
 <div class="download-options"><article class="download-option"><div><p class="eyebrow">FOR IPHONE</p><h3>iPhone 版</h3><p>现已在 App Store 上架。</p></div><a class="button primary" href="https://apps.apple.com/app/id6791828838" target="_blank" rel="noopener">前往 App Store <span aria-hidden="true">↗</span></a><small>需要 iOS 16.0 或更新版本</small></article>
