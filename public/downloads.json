@@ -1,1 +1,20 @@
-{"android":{"status":"development","url":null,"version":null,"sha256":null}}
+{
+  "android": {
+    "status": "testing",
+    "format": "apk",
+    "version": "0.1.2-alpha",
+    "url": "https://github.com/CaliBG/tongkuang/releases/download/public-test-0.1.2/Tongkuang-Android-0.1.2-alpha.apk",
+    "sizeBytes": 62577166,
+    "sha256": "b244cf0608df658ed6da5cd7df1290f30c67d9275c1389c66458c9f8ed310e43",
+    "releaseNotesUrl": "https://github.com/CaliBG/tongkuang/releases/tag/public-test-0.1.2"
+  },
+  "harmony": {
+    "status": "testing",
+    "format": "source-zip",
+    "version": "0.1.2",
+    "url": "https://github.com/CaliBG/tongkuang/releases/download/public-test-0.1.2/Tongkuang-Harmony-0.1.2-source.zip",
+    "sizeBytes": 51381,
+    "sha256": "c049c8032225d9d53447a611287edbdeca5f073099c4cbfd76cb37cbe5a37368",
+    "releaseNotesUrl": "https://github.com/CaliBG/tongkuang/releases/tag/public-test-0.1.2"
+  }
+}
