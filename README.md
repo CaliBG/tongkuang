@@ -1,39 +1,65 @@
 # 同框 Tongkuang 官网
 
-轻量静态产品官网，发布到 https://calibg.github.io/tongkuang/ 。GitHub Pages 来源：`main` 分支的 `/docs`。
+网站：https://calibg.github.io/tongkuang/
 
-- 真实 App 界面与 App Store 下载入口。
-- 同步双拍、录屏双拍、Vlog 三种模式，可点击或用方向键切换。
-- 原 Keynote 第 36 页：视频和文字动画；第 39 → 40 页：神奇移动与内嵌视频。已拆为原生网页交互：手指或鼠标左右拖动直接控制图层、文字与实拍画面；反向拖动倒回，松手停止。支持进度条、键盘、自动演示、暂停、重置及全屏。
-- 移动端布局、键盘操作、减少动态效果偏好。没有分析追踪或注册表单。
-- Android 尚未发布，下载入口保持“开发中”，不提供占位安装包。
+## 开发与发布
 
-## 本地查看
+React 18 + TypeScript + Tailwind CSS 3 + Framer Motion 12 + Lucide React，由 Vite 构建。
 
-在本项目目录运行 `node scripts/preview.mjs`，打开 http://localhost:4176 。无需安装前端依赖或构建。预览服务器支持 HTTP Range，这是视频逐帧拖动定位所必需的；普通 Python 静态服务器无法完整验证该行为。
+```sh
+npm ci
+npm run dev
+npm run build
+npm run preview
+```
 
-## 动态演示
+开发与预览地址：http://127.0.0.1:4176 。预览服务器支持视频定位需要的 HTTP Range。不要用不支持 Range 的服务器验证视频拖动。
 
-官网的 `interactive-story.js` 为原生可拖动网页：第 36 页的文字使用独立 HTML 元素，实拍视频按拖动进度定位；第 39 → 40 页从原动画提取 30 张透明图层及原位移、缩放、淡入淡出数据，直接在 DOM 中正向/反向渲染，不使用 iframe 播放器。原视频通过系统工具转换为适合网页的 H.264 MP4。素材无 AI 生成。
+`main` 分支推送触发 `.github/workflows/pages.yml`，将 `dist` 构建产物发布到 GitHub Pages。Pages 的 Build type 为 GitHub Actions。没有上传 APK 或 iOS 项目源代码。
 
-`docs/story/` 保留用户提供的 Keynote HTML 导出播放器作为“查看原始演示”入口。只纳入第 36、39、40 页，保留原始 JSON 动画、PDF 纹理与视频；没有把动态演示替换成静态截图。封面取自这些真实素材。原播放器的版权与致谢文件保留在 assets/player。
+## 页面与设计
 
-`bridge.js` 暴露嵌入所需的播放状态并处理静音自动播放；禁止跳入未选择的原第 37、41 页。播放器代码只有一处改动，用于向网页公开已有控制器。原始素材的 SHA-256 记录见 `scripts/keynote-source-manifest.json`。
+以用户提供的 3D 创作者页面为视觉参考，保持同框产品内容：
 
-如需重新导入同一份 43 页导出：`python3 scripts/import-keynote.py /path/to/keynote-export`。导入后保留 bridge.js，并重新检查章节场景索引与媒体播放。封面不是动画的替代品。运行 `python3 scripts/extract-interactive.py` 可从已导入资料重新提取透明图层（需要 PyMuPDF、Pillow）。
+- #0C0C0C 深色背景、金属渐变大标题、Kanit 字体 300–900（本地托管，并附 OFL 授权）。
+- 实际 App 界面组成悬浮手机首屏，鼠标靠近产生磁性移动。
+- 随滚动反向移动的产品画面、逐字显现的介绍。
+- 白色功能区：同步双拍、录屏双拍、Vlog 三张层叠卡片。
+- 两段可拖动的原生网页演示、App Store 下载、Android 开发中状态、FAQ 与隐私链接。
 
-## 发布 Android 安装包
+所有产品素材来自现有 App 和用户提供的 Keynote 导出，未生成 AI 素材。录屏双拍卡片中的屏幕小窗为明确标注的功能示意。减少动态效果偏好会关闭磁性位移、滚动位移、字符渐显与卡片层叠；用户仍可主动操作演示。
 
-正式签名 APK 应上传到 GitHub Releases，再更新 `docs/downloads.json` 的 `android`：将 `status` 改为 `ready`，`url` 设置为 HTTPS APK 下载地址，填写真实 `version` 和 `sha256`。当前没有 APK，不得提前启用下载。网页不使用 APK 占位文件。
+## 两段原生拖动交互
 
-Android 发布时还需要同步调整页面标题描述、FAQ、支持设备与系统信息。不要把 Android APK 标为原生鸿蒙应用。
+核心文件：`src/interactive-story.js`。
 
-## 设计与验证
+- 原第 36 页：实拍视频按进度定位；四行文字以独立 HTML 元素出现、移动和淡出。
+- 原第 39 → 40 页：从 Keynote 提取 30 张透明图层以及原始位移、缩放和淡入淡出数据，直接在 DOM 中按进度渲染。内嵌视频同步定位。
+- 触屏或鼠标向右拖动推进，向左拖动倒回，松手冻结。另有可用方向键操作的进度条、自动演示、暂停、重置及全屏。
+- 纵向触摸仍然滚动网页，切换章节停止前一段，页面切到后台停止自动演示。
+- 主交互不使用 iframe，不依赖原 Keynote 播放器。`public/story/` 保留原导出作为“查看原始演示”入口。
 
-沿用同框蓝色图标、实际拍摄界面与用户提供的演示素材；原生 HTML/CSS/JS，设计参数为 7 / 4 / 3（变化 / 动效 / 密度）。页面本身尊重减少动态效果设置，拖动时画面完全随手势变化；自动演示仅由用户主动启动。
+原始幻灯片动画与媒体文件的 SHA-256 见 `scripts/keynote-source-manifest.json`。原播放器的版权与致谢文件保留在 `public/story/assets/player`。
 
-已在 Chrome 中验证桌面、320 / 390 / 768 像素布局、键盘标签切换、FAQ、待发布下载状态、36 页视频与文字动画、39 → 40 页动画与视频、原生图层鼠标/真实触摸事件拖动、反向拖动、松手冻结、键盘进度控制、自动演示/暂停/重置及全屏。上线后需要继续在真实 iPhone Safari 与 Android 浏览器验收视频解码和全屏差异。
+从同一份 43 页 HTML 导出重新导入：
 
-App Store: https://apps.apple.com/app/id6791828838
+```sh
+python3 scripts/import-keynote.py /path/to/keynote-export
+python3 scripts/extract-interactive.py
+```
 
-隐私政策: https://calibg.github.io/privacy/
+提取图层需要 PyMuPDF、Pillow。网页视频用 macOS `avconvert` 的 `Preset1280x720` 生成，保存在 `public/assets/interactive`；原视频未被替换或删除。
+
+## Android 下载
+
+目前没有可发布 APK。`public/downloads.json` 的 `android.status` 保持 `development`。
+
+正式 APK 签名并完成真机验证后，上传到 GitHub Releases，将 `status` 改为 `ready`，`url` 设置为 HTTPS APK 地址，并填写真实 `version` 与 `sha256`。不要上传占位文件或把 Android APK 标为原生鸿蒙应用。发布 Android 时同步修改首屏状态、FAQ、支持设备及系统信息。
+
+## 验证
+
+已通过 TypeScript 检查与生产构建；Chrome 桌面及 320 / 390 / 768 / 1920 像素布局检查、字体/素材加载、FAQ、下载状态、减少动态效果偏好，以及鼠标和真实触摸事件的正反拖动、松手冻结、键盘进度、自动演示/暂停/重置、全屏检查。手机测试使用浏览器模拟触屏，真实 iPhone Safari 和华为手机仍需设备验收。
+
+App Store：https://apps.apple.com/app/id6791828838
+
+隐私政策：https://calibg.github.io/privacy/

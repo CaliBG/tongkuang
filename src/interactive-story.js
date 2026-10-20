@@ -69,13 +69,15 @@ function buildIntro(root) {
   },destroy:clip.destroy};
 }
 export function setupStory(tabs) {
+  const events=new AbortController();
+  const listen=(target,type,handler)=>target.addEventListener(type,handler,{signal:events.signal});
   const stage=document.querySelector('#story-stage'),panel=document.querySelector('#story-panel'),viewport=document.querySelector('#story-viewport');
   const poster=document.querySelector('#story-poster'),hint=document.querySelector('#drag-hint'),status=document.querySelector('#story-status');
   const range=document.querySelector('#story-progress'),percent=document.querySelector('#story-percent');
   const replay=document.querySelector('#story-replay'),play=document.querySelector('#story-auto'),full=document.querySelector('#story-fullscreen'),direct=document.querySelector('#story-direct');
   let scene='0',progress=0,renderer=null,root=null,generation=0,active=false,loading=null,raf=0,lastTime=0,drag=null,autoRequested=false;
   function resize(){if(root)root.style.transform=`scale(${stage.clientWidth/1920})`;}
-  new ResizeObserver(resize).observe(stage);
+  const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(stage);
   function render(value){
     progress=clamp(value);range.value=String(Math.round(progress*1000));percent.textContent=`${Math.round(progress*100)}%`;
     range.setAttribute('aria-valuetext',`${scene==='0'?'动态介绍':'设计全景'}，进度 ${Math.round(progress*100)}%`);
@@ -102,34 +104,35 @@ export function setupStory(tabs) {
       }finally{if(token===generation)loading=null;}
     })();return loading;
   }
-  tabs('.chapter-tabs [role=tab]',tab=>{
+  const unbindTabs=tabs('.chapter-tabs [role=tab]',tab=>{
     if(scene===tab.dataset.scene)return;
     pause();generation++;renderer?.destroy();renderer=null;root=null;loading=null;drag=null;viewport.replaceChildren();scene=tab.dataset.scene;
     panel.setAttribute('aria-labelledby',tab.id);poster.src=scene==='0'?'assets/story-intro.webp':'assets/story-design.webp';poster.alt=scene==='0'?'向右拖动，控制同框的实拍视频和文字动画':'向右拖动，展开同框的设计全景';poster.hidden=false;replay.textContent='重置';direct.href=`story/#${scene}`;render(0);
     if(active)load();
   });
   const observe=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){load();observe.disconnect();}},{rootMargin:'200px'});observe.observe(stage);
-  stage.addEventListener('pointerdown',e=>{
+  listen(stage,'pointerdown',e=>{
     if(e.pointerType==='mouse'&&e.button!==0)return;
     pause();load();drag={id:e.pointerId,x:e.clientX,p:progress};stage.setPointerCapture(e.pointerId);stage.classList.add('dragging');
   });
-  stage.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;render(drag.p+(e.clientX-drag.x)/Math.max(1,stage.clientWidth*.85));});
+  listen(stage,'pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;render(drag.p+(e.clientX-drag.x)/Math.max(1,stage.clientWidth*.85));});
   function release(e){if(drag&&e.pointerId===drag.id){drag=null;stage.classList.remove('dragging');if(stage.hasPointerCapture(e.pointerId))stage.releasePointerCapture(e.pointerId);}}
-  stage.addEventListener('pointerup',release);stage.addEventListener('pointercancel',release);stage.addEventListener('lostpointercapture',()=>{drag=null;stage.classList.remove('dragging');});
-  range.addEventListener('input',()=>{pause();load();render(Number(range.value)/1000);});
-  replay.addEventListener('click',()=>{pause();render(0);load();replay.textContent='重置';});
-  play.addEventListener('click',async()=>{
+  listen(stage,'pointerup',release);listen(stage,'pointercancel',release);listen(stage,'lostpointercapture',()=>{drag=null;stage.classList.remove('dragging');});
+  listen(range,'input',()=>{pause();load();render(Number(range.value)/1000);});
+  listen(replay,'click',()=>{pause();render(0);load();replay.textContent='重置';});
+  listen(play,'click',async()=>{
     if(raf||autoRequested){pause();return;}autoRequested=true;const token=generation;await load();if(!autoRequested||token!==generation||!renderer){if(token===generation)pause();return;}
     if(progress>=.999)render(0);lastTime=performance.now();play.textContent='暂停';play.setAttribute('aria-pressed','true');
     function tick(now){render(progress+(now-lastTime)/6500);lastTime=now;if(progress<1)raf=requestAnimationFrame(tick);else pause();}
     raf=requestAnimationFrame(tick);
   });
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});
-  full.addEventListener('click',async()=>{
+  listen(document,'visibilitychange',()=>{if(document.hidden)pause();});
+  listen(full,'click',async()=>{
     if(!panel.requestFullscreen){panel.classList.toggle('expanded');full.textContent=panel.classList.contains('expanded')?'退出全屏':'全屏';return;}
     try{if(document.fullscreenElement)await document.exitFullscreen();else await panel.requestFullscreen();}catch{status.textContent='此浏览器暂不支持全屏，可直接拖动画面或下方进度条。';}
   });
-  document.addEventListener('fullscreenchange',()=>{full.textContent=document.fullscreenElement?'退出全屏':'全屏';resize();});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('expanded')){panel.classList.remove('expanded');full.textContent='全屏';}});
+  listen(document,'fullscreenchange',()=>{full.textContent=document.fullscreenElement?'退出全屏':'全屏';resize();});
+  listen(document,'keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('expanded')){panel.classList.remove('expanded');full.textContent='全屏';}});
   render(0);
+  return ()=>{pause();generation++;renderer?.destroy();root?.remove();observe.disconnect();resizeObserver.disconnect();events.abort();if(typeof unbindTabs==='function')unbindTabs();};
 }

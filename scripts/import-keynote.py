@@ -3,7 +3,7 @@ import json,shutil,hashlib,argparse
 from pathlib import Path
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('source', type=Path, help='Keynote HTML export folder')
-source=parser.parse_args().source;target=Path(__file__).resolve().parents[1]/'docs'/'story'
+source=parser.parse_args().source;target=Path(__file__).resolve().parents[1]/'public'/'story'
 (target/'assets').mkdir(parents=True,exist_ok=True)
 h=json.loads((source/'assets/header.json').read_text());selected=[h['slideList'][i-1] for i in (36,39,40)]
 assert len(selected)==3

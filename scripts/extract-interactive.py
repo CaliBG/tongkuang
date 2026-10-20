@@ -5,8 +5,8 @@ from pathlib import Path
 import fitz
 from PIL import Image
 root=Path(__file__).resolve().parents[1]
-assets=root/'docs/story/assets'
-out=root/'docs/assets/interactive'
+assets=root/'public/story/assets'
+out=root/'public/assets/interactive'
 out.mkdir(parents=True,exist_ok=True)
 uid='D2C8AA9C-E0B2-4187-B621-C03103C583D5'
 data=json.loads((assets/uid/(uid+'.json')).read_text())
