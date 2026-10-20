@@ -1,0 +1,20 @@
+{
+  "intro": {
+    "count": 105,
+    "fps": 16,
+    "width": 960,
+    "height": 540,
+    "path": "assets/interactive/frames/intro",
+    "source": "assets/interactive/intro.mp4",
+    "sourceSHA256": "d42b230e62ac58301f32aff5a40645bb3452669a663f9f8098e7c7eb5e159f2d"
+  },
+  "design": {
+    "count": 96,
+    "fps": 16,
+    "width": 960,
+    "height": 408,
+    "path": "assets/interactive/frames/design",
+    "source": "assets/interactive/design.mp4",
+    "sourceSHA256": "063c9e7e24512b9bee9d31fca981d8426e6e2f72b6b1fe93b1323afcdc525997"
+  }
+}

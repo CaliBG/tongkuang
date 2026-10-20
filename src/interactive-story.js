@@ -1,3 +1,6 @@
+import {createFrameSequence} from './frame-sequence.js';
+import frameData from './story-frames.json';
+
 const clamp = (v, min=0, max=1) => Math.min(max, Math.max(min, v));
 const mix = (a,b,t) => a+(b-a)*t;
 // Keynote's EaseInEaseOut timing, evaluated deterministically in either direction.
@@ -11,18 +14,11 @@ const segment=(p,a,b)=>ease(clamp((p-a)/(b-a)));
 function flatten(animations,offset=0) {
   return animations.flatMap(a=>a.animations?flatten(a.animations,offset+(a.beginTime||0)):[{...a,beginTime:offset+(a.beginTime||0)}]);
 }
-function makeVideo(src) {
-  const v=document.createElement('video');v.src=src;v.muted=true;v.playsInline=true;v.preload='auto';v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');v.disablePictureInPicture=true;
-  let target=0;
-  function seek(){if(v.readyState<1||v.seeking)return;const next=clamp(target,0,Math.max(0,v.duration-.025));if(Math.abs(v.currentTime-next)>.025)v.currentTime=next;}
-  v.addEventListener('loadedmetadata',seek);v.addEventListener('seeked',seek);v.addEventListener('canplay',seek);v.addEventListener('progress',seek);
-  return {element:v,seek(time){target=time;seek();},destroy(){v.pause();v.removeAttribute('src');v.load();}};
-}
 let designData;
-async function buildDesign(root) {
+async function buildDesign(root, initialProgress, onError) {
   designData ||= fetch('assets/interactive/design.json').then(r=>{if(!r.ok)throw Error('Design unavailable');return r.json();}).catch(e=>{designData=null;throw e;});
   const data=await designData, renders=[], pictures=[];
-  const clip=makeVideo('assets/interactive/design.mp4');clip.element.className='design-clip';
+  const clip=createFrameSequence(frameData.design,clamp((initialProgress-.66)/.34),onError);clip.element.className='design-clip';
   function layer(node,parent) {
     const el=document.createElement('div'),s=node.initialState,ax=s.anchorPoint?.pointX??.5,ay=s.anchorPoint?.pointY??.5;
     el.className='keynote-layer';
@@ -56,18 +52,19 @@ async function buildDesign(root) {
     (node.layers||[]).forEach(child=>layer(child,el));
   }
   layer(data.root,root);
-  try {await Promise.all(pictures.map(img=>img.decode()));} catch(error) {clip.destroy();throw error;}
-  return {render(p){renders.forEach(render=>render(p*data.duration));clip.seek(clamp((p-.66)/.34)*5.975);},destroy:clip.destroy};
+  try {await Promise.all([...pictures.map(img=>img.decode()),clip.ready]);} catch(error) {clip.destroy();throw error;}
+  return {render(p){renders.forEach(render=>render(p*data.duration));clip.seek(clamp((p-.66)/.34));},destroy:clip.destroy};
 }
-function buildIntro(root) {
-  const clip=makeVideo('assets/interactive/intro.mp4');clip.element.className='intro-clip';clip.element.poster='assets/story-intro.webp';root.append(clip.element);
+async function buildIntro(root, initialProgress, onError) {
+  const clip=createFrameSequence(frameData.intro,initialProgress,onError);clip.element.className='intro-clip';root.append(clip.element);
   const words=['Dual camera','Picture-in-picture','Teleprompter','Music sync'].map(text=>{const el=document.createElement('div');el.className='intro-word';el.textContent=text;root.append(el);return el;});
+  try {await clip.ready;} catch(error) {clip.destroy();throw error;}
   return {render(p){
-    clip.seek(p*6.545);
+    clip.seek(p);
     const y=[mix(790,620,segment(p,0,.17))-160*segment(p,.18,.35)-160*segment(p,.35,.52),mix(800,620,segment(p,.18,.35))-160*segment(p,.35,.52),mix(820,620,segment(p,.35,.52)),mix(980,780,segment(p,.49,.66))];
     words.forEach((el,i)=>{const start=[0,.18,.35,.49][i],end=[.74,.77,.82,.88][i];const fadeIn=segment(p,start,start+.13),fadeOut=segment(p,end,end+.12);el.style.opacity=String(fadeIn*(1-fadeOut));el.style.transform=`translate(-50%,-50%) translateY(${y[i]-fadeOut*110}px)`;});
   },destroy:clip.destroy};
 }
-export async function createStoryRenderer(scene, root) {
-  return scene === '0' ? buildIntro(root) : buildDesign(root);
+export async function createStoryRenderer(scene, root, initialProgress=0, onError=(_failed=false)=>{}) {
+  return scene === '0' ? buildIntro(root,initialProgress,onError) : buildDesign(root,initialProgress,onError);
 }
