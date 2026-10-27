@@ -11,22 +11,24 @@ type DownloadState = {status:'loading'} | {status:'error'} | {
 const platforms = {
   android: {
     label:'02 / ANDROID', name:'Android', heading:'先来体验。',
-    description:'Android 开放测试。支持 APK 的设备可下载安装，功能与兼容性仍在完善。',
-    button:'下载安卓测试版', format:'APK 安装包',
+    description:'10 月 27 日开发测试包。统一拍摄界面与 Vlog提词体验，继续完善功能和设备兼容性。',
+    button:'下载安卓测试版', format:'APK · 开发签名',
     limitations:[
-      '需要 Android 10 或更新版本，且系统支持安装 APK。华为 Mate 50 Pro 尚未完成真机验证。',
-      '这是开发签名的 Alpha 版本，非应用商店正式版。双摄、悬浮窗及后台拍摄能力取决于设备和系统。',
-      '录屏双拍、同步双拍和 Vlog 均可参与测试；部分录制与保存能力仍有限制，详见版本说明。'
+      '需要 Android 10 或更新版本，且系统支持安装 APK。',
+      '版本为 0.1.3-alpha（4），包名 com.tongkuang.app.dev。这是开发签名测试包，非应用商店正式版。',
+      '新增渐变原位切换、可取消倒计时、录屏原片开关和提词定位。双摄及后台小窗受设备与系统能力限制，尚未完成华为真机验收。',
+      '仅可覆盖相同包名和签名的旧测试版。遇到签名冲突时，请先保留本地稿件与素材，不要直接卸载。'
     ]
   },
   harmony: {
-    label:'03 / HARMONYOS', name:'鸿蒙', heading:'一起探索。',
-    description:'鸿蒙源码预览已开放。当前提供源码 ZIP，供开发者预览，不能直接安装到手机。',
-    button:'下载鸿蒙源码预览', format:'源码 ZIP · 非安装包',
+    label:'03 / HARMONYOS · APK', name:'APK 兼容鸿蒙', heading:'继续同框。',
+    description:'为支持 Android APK 的鸿蒙系统提供同一开发测试包。原生鸿蒙新系统的安装能力请先确认。',
+    button:'下载鸿蒙兼容测试版', format:'APK · 非原生 HAP',
     limitations:[
-      '下载的是源码 ZIP，不是 HAP，也不是 APK，不能直接在手机上安装。',
-      '尚未完成完整鸿蒙工具链编译、签名或真机验证，需要配置华为官方开发工具后自行构建与调试。',
-      '录屏及后台相机、双摄合成和双摄拍照仍在开发中；源码中的界面或流程不代表功能已可用。'
+      '只适用于支持安装 Android APK 的鸿蒙系统。不支持 APK 的系统无法安装本包；它不是原生 HarmonyOS HAP。',
+      '与 Android 入口为同一 0.1.3-alpha（4）开发签名 APK，包名 com.tongkuang.app.dev，不是独立的原生鸿蒙商店版本。',
+      '尚未完成华为手机的双摄、后台相机、小窗和成片验收。系统自带双景功能不代表第三方应用能使用相同组合。',
+      '遇到安装或签名冲突时，请先保留本地稿件与素材，不要直接卸载旧版。'
     ]
   }
 };
@@ -61,7 +63,7 @@ function TestingNotice({platform,release,onClose}:{platform:Platform;release:Rel
     <div className="testing-dialog-content">
       <p className="testing-kicker">测试说明与免责声明</p>
       <h2 id="testing-title">还在打磨，<br/>请先了解。</h2>
-      <p id="testing-summary" className="testing-summary">安卓和鸿蒙目前处于开发测试阶段，不保证功能完整性、稳定性或设备兼容性。</p>
+      <p id="testing-summary" className="testing-summary">Android 与 APK 兼容鸿蒙的当前安装包处于开发测试阶段，功能和设备兼容性仍在验证。</p>
       <div className="testing-package"><Download size={17} aria-hidden="true"/><span>{info.format}</span><span>{fileSize(release.sizeBytes)}</span></div>
       <ul className="testing-limitations">{info.limitations.map(item=><li key={item}>{item}</li>)}</ul>
       <div className="testing-disclaimer">
@@ -77,7 +79,7 @@ function TestingNotice({platform,release,onClose}:{platform:Platform;release:Rel
     </div>
     <div className="testing-dialog-actions">
       <a className="contact-button" href={release.url} target="_blank" rel="noopener noreferrer" onClick={()=>setDownloadStarted(true)}>
-        {platform==='android'?'了解提示，下载 APK':'了解提示，下载源码'}<Download size={16} aria-hidden="true"/>
+        了解提示，下载 APK<Download size={16} aria-hidden="true"/>
       </a>
       <button type="button" className="testing-cancel" onClick={onClose}>暂不下载</button>
       {downloadStarted&&<p role="status" className="testing-download-status">已打开下载链接。若浏览器未开始下载，可再次点击上方按钮。</p>}
@@ -120,7 +122,7 @@ export function TestingDownloads() {
             :state.status==='loading'?<span className="testing-load" role="status">正在获取下载信息…</span>
             :<><p className="testing-load" role="status">暂时无法获取下载信息，请重试。</p><button type="button" className="ghost-button" onClick={()=>setRetry(value=>value+1)}>重新加载</button></>}
           <small>{release?`${release.version} · ${fileSize(release.sizeBytes)} · ${info.format}`:info.format}</small>
-          <span className="testing-card-note">开发测试阶段 · 下载前请阅读提示</span>
+          <span className="testing-card-note">2026-10-27 开发测试包 · 下载前请阅读提示</span>
         </div>
       </article>;
     })}

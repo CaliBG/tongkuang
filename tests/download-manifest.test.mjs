@@ -12,23 +12,50 @@ const android = {
   url: `${root}/download/public-test-0.1.2/Tongkuang-Android-0.1.2-alpha.apk`,
   releaseNotesUrl: `${root}/tag/public-test-0.1.2`,
 };
-const harmony = {
-  status: 'testing',
-  format: 'source-zip',
-  version: '0.1.2',
-  sha256: '314b6ef56e89267acc5da014ace45ba0cebb97bb7ed2b0dcc4dfe2a1638e0df9',
-  sizeBytes: 50452,
-  url: `${root}/download/public-test-0.1.2/Tongkuang-Harmony-0.1.2-source.zip`,
-  releaseNotesUrl: `${root}/tag/public-test-0.1.2`,
-};
+const harmony = {...android};
 
-test('accepts Android APK and Harmony source without conflating their formats', () => {
+test('accepts same-site mirrors at both root and GitHub Pages subpaths', () => {
+  for (const [platform, item] of [['android', android], ['harmony', harmony]]) {
+    const mirrored = {
+      ...item,
+      url: item.url.replace(`${root}/download/`, 'downloads/'),
+      releaseNotesUrl: 'downloads/public-test-0.1.2/release-notes.html',
+    };
+    const parsed = parseTestRelease(mirrored, platform);
+    assert.ok(parsed);
+    for (const base of ['https://example.com/', 'https://example.com/tongkuang/']) {
+      assert.equal(new URL(parsed.url, base).href, base + mirrored.url);
+    }
+  }
+});
+
+test('rejects ambiguous mirror paths, mixed origins and mismatched release notes', () => {
+  const mirrored = {
+    ...android,
+    url: 'downloads/public-test-0.1.2/Tongkuang-Android-0.1.2-alpha.apk',
+    releaseNotesUrl: 'downloads/public-test-0.1.2/release-notes.html',
+  };
+  for (const url of [
+    `/${mirrored.url}`, `//evil.example/${mirrored.url}`, `../${mirrored.url}`,
+    mirrored.url.replace('downloads/', 'downloads/../'),
+    mirrored.url.replace('downloads/', 'downloads%2F'),
+    mirrored.url.replace('downloads/', 'downloads\\'),
+    `${mirrored.url}?redirect=1`, `${mirrored.url}#download`,
+    `${mirrored.url}\n`, ` ${mirrored.url}`,
+  ]) assert.equal(parseTestRelease({...mirrored, url}, 'android'), null, url);
+  for (const releaseNotesUrl of [android.releaseNotesUrl, 'downloads/other/release-notes.html', '//evil.example/notes']) {
+    assert.equal(parseTestRelease({...mirrored, releaseNotesUrl}, 'android'), null);
+  }
+  assert.equal(parseTestRelease({...android, releaseNotesUrl: mirrored.releaseNotesUrl}, 'android'), null);
+});
+
+test('accepts one Android APK for Android and APK-compatible Harmony', () => {
   for (const [platform, item] of [['android', android], ['harmony', harmony]]) {
     const {status, ...expected} = item;
     assert.deepEqual(parseTestRelease(item, platform), expected);
   }
-  assert.equal(parseTestRelease(harmony, 'android'), null);
-  assert.equal(parseTestRelease(android, 'harmony'), null);
+  assert.ok(parseTestRelease(android, 'harmony'));
+  assert.equal(parseTestRelease({...harmony, format: 'source-zip'}, 'harmony'), null);
 });
 
 test('future release tags work and only validated public metadata is returned', () => {
@@ -88,8 +115,9 @@ test('requires matching release notes and the actual advertised artifact type', 
   }
   for (const patch of [
     {format: 'hap'},
-    {url: harmony.url.replace('-source.zip', '.hap')},
-    {url: harmony.url.replace('-source.zip', '.zip')},
+    {format: 'source-zip'},
+    {url: harmony.url.replace('.apk', '.hap')},
+    {url: harmony.url.replace('.apk', '-source.zip')},
   ]) {
     assert.equal(parseTestRelease({...harmony, ...patch}, 'harmony'), null);
   }

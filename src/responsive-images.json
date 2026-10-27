@@ -1,0 +1,146 @@
+{
+  "dual.webp": [
+    {
+      "width": 320,
+      "height": 663,
+      "src": "assets/responsive/dual-320-92a24bd5c5.webp",
+      "bytes": 27514
+    },
+    {
+      "width": 480,
+      "height": 995,
+      "src": "assets/responsive/dual-480-d014cb3e31.webp",
+      "bytes": 51662
+    },
+    {
+      "width": 640,
+      "height": 1326,
+      "src": "assets/responsive/dual-640-c86a55cfd7.webp",
+      "bytes": 78560
+    },
+    {
+      "width": 772,
+      "height": 1600,
+      "src": "assets/responsive/dual-772-b7a66ed94f.webp",
+      "bytes": 97462
+    }
+  ],
+  "record.webp": [
+    {
+      "width": 320,
+      "height": 662,
+      "src": "assets/responsive/record-320-da9e11a4a0.webp",
+      "bytes": 21440
+    },
+    {
+      "width": 480,
+      "height": 994,
+      "src": "assets/responsive/record-480-ec625e8104.webp",
+      "bytes": 35632
+    },
+    {
+      "width": 640,
+      "height": 1325,
+      "src": "assets/responsive/record-640-eb9a085ff2.webp",
+      "bytes": 50598
+    },
+    {
+      "width": 772,
+      "height": 1598,
+      "src": "assets/responsive/record-772-7242299471.webp",
+      "bytes": 59914
+    }
+  ],
+  "vlog.webp": [
+    {
+      "width": 320,
+      "height": 663,
+      "src": "assets/responsive/vlog-320-3b127d3c95.webp",
+      "bytes": 21100
+    },
+    {
+      "width": 480,
+      "height": 995,
+      "src": "assets/responsive/vlog-480-1e484a6f91.webp",
+      "bytes": 33992
+    },
+    {
+      "width": 640,
+      "height": 1326,
+      "src": "assets/responsive/vlog-640-37f14dd071.webp",
+      "bytes": 46052
+    },
+    {
+      "width": 772,
+      "height": 1600,
+      "src": "assets/responsive/vlog-772-3a9e7a7b94.webp",
+      "bytes": 54548
+    }
+  ],
+  "screen-camera-selfie.jpg": [
+    {
+      "width": 320,
+      "height": 695,
+      "src": "assets/responsive/screen-camera-selfie-320-239ad37814.webp",
+      "bytes": 21620
+    },
+    {
+      "width": 480,
+      "height": 1043,
+      "src": "assets/responsive/screen-camera-selfie-480-e101f3abd8.webp",
+      "bytes": 35456
+    },
+    {
+      "width": 640,
+      "height": 1391,
+      "src": "assets/responsive/screen-camera-selfie-640-ad9a2003cc.webp",
+      "bytes": 50698
+    },
+    {
+      "width": 850,
+      "height": 1847,
+      "src": "assets/responsive/screen-camera-selfie-850-03b5c5c3e1.webp",
+      "bytes": 68326
+    }
+  ],
+  "story-intro.webp": [
+    {
+      "width": 640,
+      "height": 360,
+      "src": "assets/responsive/story-intro-640-a47bb9e294.webp",
+      "bytes": 11050
+    },
+    {
+      "width": 960,
+      "height": 540,
+      "src": "assets/responsive/story-intro-960-164c72305b.webp",
+      "bytes": 17872
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "src": "assets/responsive/story-intro-1280-5a8674375e.webp",
+      "bytes": 24420
+    }
+  ],
+  "story-design.webp": [
+    {
+      "width": 640,
+      "height": 360,
+      "src": "assets/responsive/story-design-640-4f0e92008c.webp",
+      "bytes": 5830
+    },
+    {
+      "width": 960,
+      "height": 540,
+      "src": "assets/responsive/story-design-960-24c8fce7ad.webp",
+      "bytes": 10018
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "src": "assets/responsive/story-design-1280-456167ff70.webp",
+      "bytes": 15006
+    }
+  ]
+}
