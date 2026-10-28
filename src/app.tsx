@@ -2,6 +2,7 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {motion, MotionConfig, MotionValue, useMotionValue, useReducedMotion, useScroll, useTransform} from 'framer-motion';
 import {ArrowDown, ArrowUpRight, Camera, Check, ScreenShare, Video} from 'lucide-react';
 import {TestingDownloads} from './testing-downloads';
+import {DuoShowcase} from './duo-showcase';
 import imageVariants from './responsive-images.json';
 
 const STORE='https://apps.apple.com/app/id6791828838';
@@ -110,7 +111,7 @@ function UpdatesSection(){return <section id="updates" className="updates-sectio
   <div className="update-rows">
     <article><span className="update-status">Android / APK 兼容鸿蒙 · 测试版</span><h3>同一画面，流畅切换。</h3><p>同步双拍、录屏自拍与 Vlog提词，延续一致的拍摄控件。深色渐变衔接背景，模式与快门保持原位；新增可取消倒计时、录屏镜头记忆和相机原片保存开关。</p><a href="#android">体验 10 月 27 日测试包 <ArrowUpRight size={15}/></a></article>
     <article><span className="update-status">Vlog提词 · 本轮开发更新</span><h3>让表达跟上你的节奏。</h3><p>模式名称统一为「Vlog提词」。本轮加入更清晰的阅读标记、上下行定位，以及字号、速度和文字镜像设置，让编辑、试读与拍摄衔接得更自然。各平台进度以版本说明为准。</p></article>
-    <article><span className="update-status">iPhone Duo · 本地开发演示</span><h3>展开视野，延续拍摄。</h3><p>正在验证开合时不旋转的内外屏过渡、展开内屏的全屏布局，以及按键和自拍小窗的位置。本项尚未随 App Store 版本发布，仍需完成设备验证。</p><a href="#download">查看各平台获取方式 <ArrowUpRight size={15}/></a></article>
+    <article><span className="update-status">iPhone Duo · 本地开发演示</span><h3>展开视野，延续拍摄。</h3><p>正在验证开合时不旋转的内外屏过渡、展开内屏的全屏布局，以及按键和自拍小窗的位置。本项尚未随 App Store 版本发布，仍需完成设备验证。</p><a href="#duo">观看 Duo 开合演示 <ArrowUpRight size={15}/></a></article>
   </div>
 </section>}
 function DownloadSection(){return <section id="download" className="download-section px-5 py-20 sm:px-8 md:px-10 md:py-32"><FadeIn><div className="download-title"><img src={assets('icon.png')} alt="同框图标" width="64" height="64" loading="lazy"/><p className="eyebrow">NEXT STORY STARTS WITH YOU</p><h2 className="hero-heading font-black">一起，入镜。</h2><p>把同框放进口袋，下一段故事，现在开始。</p></div></FadeIn><div className="download-grid"><article><span className="platform-label">01 / IPHONE</span><h3>即刻开始。</h3><p>同框已在 App Store 上架。<br/>需要 iOS 16.0 或更新版本。</p><ActionButton>在 App Store 下载</ActionButton></article><TestingDownloads/></div></section>}
@@ -123,4 +124,4 @@ const faq=[
  ['需要注册吗？Pro 怎么收费？','使用同框无需注册账号。照片与视频保存在本地，分享由你决定。iOS 的 Pro 提供月度、年度与永久购买选项，价格与功能以 App 内及 App Store 显示为准。Android / APK 兼容鸿蒙的当前可用功能免费测试。']
 ];
 function Footer(){return <><section className="faq-section px-5 pb-20 sm:px-8 md:px-10"><h2>你可能想知道。</h2><div>{faq.map(([q,a])=><details key={q}><summary>{q}</summary><p>{a}</p></details>)}</div></section><footer id="contact" className="footer px-5 sm:px-8 md:px-10"><div className="footer-top"><a className="footer-brand" href="#"><img src={assets('icon.png')} alt="" width="32" height="32" loading="lazy"/>同框<span>Tongkuang</span></a><p>两个视角，一个故事。</p><a href="mailto:yzs13968803946@qq.com">联系我们 <ArrowUpRight size={15}/></a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Tongkuang</span><a href={PRIVACY} target="_blank" rel="noopener">隐私政策 ↗</a><a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">使用条款 ↗</a></div></footer></>}
-export function App(){return <MotionConfig reducedMotion="user"><a className="skip-link" href="#main">跳到主要内容</a><main id="main" className="site-wrapper" style={{overflowX:'clip'}}><HeroSection/><ScrollShowcase/><MarqueeSection/><AboutSection/><ServicesSection/><UpdatesSection/><DownloadSection/><Footer/></main></MotionConfig>}
+export function App(){return <MotionConfig reducedMotion="user"><a className="skip-link" href="#main">跳到主要内容</a><main id="main" className="site-wrapper" style={{overflowX:'clip'}}><HeroSection/><ScrollShowcase/><MarqueeSection/><AboutSection/><ServicesSection/><DuoShowcase/><UpdatesSection/><DownloadSection/><Footer/></main></MotionConfig>}

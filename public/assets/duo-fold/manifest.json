@@ -1,0 +1,1153 @@
+{
+  "version": 1,
+  "width": 960,
+  "height": 678,
+  "duration": 7.516666666666667,
+  "fps": 30.0,
+  "frameCount": 226,
+  "uniqueFrameCount": 226,
+  "frames": [
+    {
+      "src": "assets/duo-fold/frames/frame-0000.webp",
+      "time": 0.0,
+      "sourceFrame": 0
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0001.webp",
+      "time": 0.033333,
+      "sourceFrame": 2
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0002.webp",
+      "time": 0.066667,
+      "sourceFrame": 4
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0003.webp",
+      "time": 0.1,
+      "sourceFrame": 6
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0004.webp",
+      "time": 0.133333,
+      "sourceFrame": 8
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0005.webp",
+      "time": 0.166667,
+      "sourceFrame": 10
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0006.webp",
+      "time": 0.2,
+      "sourceFrame": 12
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0007.webp",
+      "time": 0.233333,
+      "sourceFrame": 14
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0008.webp",
+      "time": 0.266667,
+      "sourceFrame": 16
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0009.webp",
+      "time": 0.3,
+      "sourceFrame": 18
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0010.webp",
+      "time": 0.333333,
+      "sourceFrame": 20
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0011.webp",
+      "time": 0.366667,
+      "sourceFrame": 22
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0012.webp",
+      "time": 0.4,
+      "sourceFrame": 24
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0013.webp",
+      "time": 0.433333,
+      "sourceFrame": 26
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0014.webp",
+      "time": 0.466667,
+      "sourceFrame": 28
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0015.webp",
+      "time": 0.5,
+      "sourceFrame": 30
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0016.webp",
+      "time": 0.533333,
+      "sourceFrame": 32
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0017.webp",
+      "time": 0.566667,
+      "sourceFrame": 34
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0018.webp",
+      "time": 0.6,
+      "sourceFrame": 36
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0019.webp",
+      "time": 0.633333,
+      "sourceFrame": 38
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0020.webp",
+      "time": 0.666667,
+      "sourceFrame": 40
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0021.webp",
+      "time": 0.7,
+      "sourceFrame": 42
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0022.webp",
+      "time": 0.733333,
+      "sourceFrame": 44
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0023.webp",
+      "time": 0.766667,
+      "sourceFrame": 46
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0024.webp",
+      "time": 0.8,
+      "sourceFrame": 48
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0025.webp",
+      "time": 0.833333,
+      "sourceFrame": 50
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0026.webp",
+      "time": 0.866667,
+      "sourceFrame": 52
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0027.webp",
+      "time": 0.9,
+      "sourceFrame": 54
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0028.webp",
+      "time": 0.933333,
+      "sourceFrame": 56
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0029.webp",
+      "time": 0.966667,
+      "sourceFrame": 58
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0030.webp",
+      "time": 1.0,
+      "sourceFrame": 60
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0031.webp",
+      "time": 1.033333,
+      "sourceFrame": 62
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0032.webp",
+      "time": 1.066667,
+      "sourceFrame": 64
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0033.webp",
+      "time": 1.1,
+      "sourceFrame": 66
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0034.webp",
+      "time": 1.133333,
+      "sourceFrame": 68
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0035.webp",
+      "time": 1.166667,
+      "sourceFrame": 70
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0036.webp",
+      "time": 1.2,
+      "sourceFrame": 72
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0037.webp",
+      "time": 1.233333,
+      "sourceFrame": 74
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0038.webp",
+      "time": 1.266667,
+      "sourceFrame": 76
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0039.webp",
+      "time": 1.3,
+      "sourceFrame": 78
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0040.webp",
+      "time": 1.333333,
+      "sourceFrame": 80
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0041.webp",
+      "time": 1.366667,
+      "sourceFrame": 82
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0042.webp",
+      "time": 1.4,
+      "sourceFrame": 84
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0043.webp",
+      "time": 1.433333,
+      "sourceFrame": 86
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0044.webp",
+      "time": 1.466667,
+      "sourceFrame": 88
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0045.webp",
+      "time": 1.5,
+      "sourceFrame": 90
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0046.webp",
+      "time": 1.533333,
+      "sourceFrame": 92
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0047.webp",
+      "time": 1.566667,
+      "sourceFrame": 94
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0048.webp",
+      "time": 1.6,
+      "sourceFrame": 96
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0049.webp",
+      "time": 1.633333,
+      "sourceFrame": 98
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0050.webp",
+      "time": 1.666667,
+      "sourceFrame": 100
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0051.webp",
+      "time": 1.7,
+      "sourceFrame": 102
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0052.webp",
+      "time": 1.733333,
+      "sourceFrame": 104
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0053.webp",
+      "time": 1.766667,
+      "sourceFrame": 106
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0054.webp",
+      "time": 1.8,
+      "sourceFrame": 108
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0055.webp",
+      "time": 1.833333,
+      "sourceFrame": 110
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0056.webp",
+      "time": 1.866667,
+      "sourceFrame": 112
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0057.webp",
+      "time": 1.9,
+      "sourceFrame": 114
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0058.webp",
+      "time": 1.933333,
+      "sourceFrame": 116
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0059.webp",
+      "time": 1.966667,
+      "sourceFrame": 118
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0060.webp",
+      "time": 2.0,
+      "sourceFrame": 120
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0061.webp",
+      "time": 2.033333,
+      "sourceFrame": 122
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0062.webp",
+      "time": 2.066667,
+      "sourceFrame": 124
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0063.webp",
+      "time": 2.1,
+      "sourceFrame": 126
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0064.webp",
+      "time": 2.133333,
+      "sourceFrame": 128
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0065.webp",
+      "time": 2.166667,
+      "sourceFrame": 130
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0066.webp",
+      "time": 2.2,
+      "sourceFrame": 132
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0067.webp",
+      "time": 2.233333,
+      "sourceFrame": 134
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0068.webp",
+      "time": 2.266667,
+      "sourceFrame": 136
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0069.webp",
+      "time": 2.3,
+      "sourceFrame": 138
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0070.webp",
+      "time": 2.333333,
+      "sourceFrame": 140
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0071.webp",
+      "time": 2.366667,
+      "sourceFrame": 142
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0072.webp",
+      "time": 2.4,
+      "sourceFrame": 144
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0073.webp",
+      "time": 2.433333,
+      "sourceFrame": 146
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0074.webp",
+      "time": 2.466667,
+      "sourceFrame": 148
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0075.webp",
+      "time": 2.5,
+      "sourceFrame": 150
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0076.webp",
+      "time": 2.533333,
+      "sourceFrame": 152
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0077.webp",
+      "time": 2.566667,
+      "sourceFrame": 154
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0078.webp",
+      "time": 2.6,
+      "sourceFrame": 156
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0079.webp",
+      "time": 2.633333,
+      "sourceFrame": 158
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0080.webp",
+      "time": 2.666667,
+      "sourceFrame": 160
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0081.webp",
+      "time": 2.7,
+      "sourceFrame": 162
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0082.webp",
+      "time": 2.733333,
+      "sourceFrame": 164
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0083.webp",
+      "time": 2.766667,
+      "sourceFrame": 166
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0084.webp",
+      "time": 2.8,
+      "sourceFrame": 168
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0085.webp",
+      "time": 2.833333,
+      "sourceFrame": 170
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0086.webp",
+      "time": 2.866667,
+      "sourceFrame": 172
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0087.webp",
+      "time": 2.9,
+      "sourceFrame": 174
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0088.webp",
+      "time": 2.933333,
+      "sourceFrame": 176
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0089.webp",
+      "time": 2.966667,
+      "sourceFrame": 178
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0090.webp",
+      "time": 3.0,
+      "sourceFrame": 180
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0091.webp",
+      "time": 3.033333,
+      "sourceFrame": 182
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0092.webp",
+      "time": 3.066667,
+      "sourceFrame": 184
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0093.webp",
+      "time": 3.1,
+      "sourceFrame": 186
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0094.webp",
+      "time": 3.133333,
+      "sourceFrame": 188
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0095.webp",
+      "time": 3.166667,
+      "sourceFrame": 190
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0096.webp",
+      "time": 3.2,
+      "sourceFrame": 192
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0097.webp",
+      "time": 3.233333,
+      "sourceFrame": 194
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0098.webp",
+      "time": 3.266667,
+      "sourceFrame": 196
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0099.webp",
+      "time": 3.3,
+      "sourceFrame": 198
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0100.webp",
+      "time": 3.333333,
+      "sourceFrame": 200
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0101.webp",
+      "time": 3.366667,
+      "sourceFrame": 202
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0102.webp",
+      "time": 3.4,
+      "sourceFrame": 204
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0103.webp",
+      "time": 3.433333,
+      "sourceFrame": 206
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0104.webp",
+      "time": 3.466667,
+      "sourceFrame": 208
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0105.webp",
+      "time": 3.5,
+      "sourceFrame": 210
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0106.webp",
+      "time": 3.533333,
+      "sourceFrame": 212
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0107.webp",
+      "time": 3.566667,
+      "sourceFrame": 214
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0108.webp",
+      "time": 3.6,
+      "sourceFrame": 216
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0109.webp",
+      "time": 3.633333,
+      "sourceFrame": 218
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0110.webp",
+      "time": 3.666667,
+      "sourceFrame": 220
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0111.webp",
+      "time": 3.7,
+      "sourceFrame": 222
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0112.webp",
+      "time": 3.733333,
+      "sourceFrame": 224
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0113.webp",
+      "time": 3.766667,
+      "sourceFrame": 226
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0114.webp",
+      "time": 3.8,
+      "sourceFrame": 228
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0115.webp",
+      "time": 3.833333,
+      "sourceFrame": 230
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0116.webp",
+      "time": 3.866667,
+      "sourceFrame": 232
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0117.webp",
+      "time": 3.9,
+      "sourceFrame": 234
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0118.webp",
+      "time": 3.933333,
+      "sourceFrame": 236
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0119.webp",
+      "time": 3.966667,
+      "sourceFrame": 238
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0120.webp",
+      "time": 4.0,
+      "sourceFrame": 240
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0121.webp",
+      "time": 4.033333,
+      "sourceFrame": 242
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0122.webp",
+      "time": 4.066667,
+      "sourceFrame": 244
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0123.webp",
+      "time": 4.1,
+      "sourceFrame": 246
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0124.webp",
+      "time": 4.133333,
+      "sourceFrame": 248
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0125.webp",
+      "time": 4.166667,
+      "sourceFrame": 250
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0126.webp",
+      "time": 4.2,
+      "sourceFrame": 252
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0127.webp",
+      "time": 4.233333,
+      "sourceFrame": 254
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0128.webp",
+      "time": 4.266667,
+      "sourceFrame": 256
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0129.webp",
+      "time": 4.3,
+      "sourceFrame": 258
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0130.webp",
+      "time": 4.333333,
+      "sourceFrame": 260
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0131.webp",
+      "time": 4.366667,
+      "sourceFrame": 262
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0132.webp",
+      "time": 4.4,
+      "sourceFrame": 264
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0133.webp",
+      "time": 4.433333,
+      "sourceFrame": 266
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0134.webp",
+      "time": 4.466667,
+      "sourceFrame": 268
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0135.webp",
+      "time": 4.5,
+      "sourceFrame": 270
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0136.webp",
+      "time": 4.533333,
+      "sourceFrame": 272
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0137.webp",
+      "time": 4.566667,
+      "sourceFrame": 274
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0138.webp",
+      "time": 4.6,
+      "sourceFrame": 276
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0139.webp",
+      "time": 4.633333,
+      "sourceFrame": 278
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0140.webp",
+      "time": 4.666667,
+      "sourceFrame": 280
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0141.webp",
+      "time": 4.7,
+      "sourceFrame": 282
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0142.webp",
+      "time": 4.733333,
+      "sourceFrame": 284
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0143.webp",
+      "time": 4.766667,
+      "sourceFrame": 286
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0144.webp",
+      "time": 4.8,
+      "sourceFrame": 288
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0145.webp",
+      "time": 4.833333,
+      "sourceFrame": 290
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0146.webp",
+      "time": 4.866667,
+      "sourceFrame": 292
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0147.webp",
+      "time": 4.9,
+      "sourceFrame": 294
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0148.webp",
+      "time": 4.933333,
+      "sourceFrame": 296
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0149.webp",
+      "time": 4.966667,
+      "sourceFrame": 298
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0150.webp",
+      "time": 5.0,
+      "sourceFrame": 300
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0151.webp",
+      "time": 5.033333,
+      "sourceFrame": 302
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0152.webp",
+      "time": 5.066667,
+      "sourceFrame": 304
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0153.webp",
+      "time": 5.1,
+      "sourceFrame": 306
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0154.webp",
+      "time": 5.133333,
+      "sourceFrame": 308
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0155.webp",
+      "time": 5.166667,
+      "sourceFrame": 310
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0156.webp",
+      "time": 5.2,
+      "sourceFrame": 312
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0157.webp",
+      "time": 5.233333,
+      "sourceFrame": 314
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0158.webp",
+      "time": 5.266667,
+      "sourceFrame": 316
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0159.webp",
+      "time": 5.3,
+      "sourceFrame": 318
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0160.webp",
+      "time": 5.333333,
+      "sourceFrame": 320
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0161.webp",
+      "time": 5.366667,
+      "sourceFrame": 322
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0162.webp",
+      "time": 5.4,
+      "sourceFrame": 324
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0163.webp",
+      "time": 5.433333,
+      "sourceFrame": 326
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0164.webp",
+      "time": 5.466667,
+      "sourceFrame": 328
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0165.webp",
+      "time": 5.5,
+      "sourceFrame": 330
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0166.webp",
+      "time": 5.533333,
+      "sourceFrame": 332
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0167.webp",
+      "time": 5.566667,
+      "sourceFrame": 334
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0168.webp",
+      "time": 5.6,
+      "sourceFrame": 336
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0169.webp",
+      "time": 5.633333,
+      "sourceFrame": 338
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0170.webp",
+      "time": 5.666667,
+      "sourceFrame": 340
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0171.webp",
+      "time": 5.7,
+      "sourceFrame": 342
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0172.webp",
+      "time": 5.733333,
+      "sourceFrame": 344
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0173.webp",
+      "time": 5.766667,
+      "sourceFrame": 346
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0174.webp",
+      "time": 5.8,
+      "sourceFrame": 348
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0175.webp",
+      "time": 5.833333,
+      "sourceFrame": 350
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0176.webp",
+      "time": 5.866667,
+      "sourceFrame": 352
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0177.webp",
+      "time": 5.9,
+      "sourceFrame": 354
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0178.webp",
+      "time": 5.933333,
+      "sourceFrame": 356
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0179.webp",
+      "time": 5.966667,
+      "sourceFrame": 358
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0180.webp",
+      "time": 6.0,
+      "sourceFrame": 360
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0181.webp",
+      "time": 6.033333,
+      "sourceFrame": 362
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0182.webp",
+      "time": 6.066667,
+      "sourceFrame": 364
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0183.webp",
+      "time": 6.1,
+      "sourceFrame": 366
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0184.webp",
+      "time": 6.133333,
+      "sourceFrame": 368
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0185.webp",
+      "time": 6.166667,
+      "sourceFrame": 370
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0186.webp",
+      "time": 6.2,
+      "sourceFrame": 372
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0187.webp",
+      "time": 6.233333,
+      "sourceFrame": 374
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0188.webp",
+      "time": 6.266667,
+      "sourceFrame": 376
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0189.webp",
+      "time": 6.3,
+      "sourceFrame": 378
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0190.webp",
+      "time": 6.333333,
+      "sourceFrame": 380
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0191.webp",
+      "time": 6.366667,
+      "sourceFrame": 382
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0192.webp",
+      "time": 6.4,
+      "sourceFrame": 384
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0193.webp",
+      "time": 6.433333,
+      "sourceFrame": 386
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0194.webp",
+      "time": 6.466667,
+      "sourceFrame": 388
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0195.webp",
+      "time": 6.5,
+      "sourceFrame": 390
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0196.webp",
+      "time": 6.533333,
+      "sourceFrame": 392
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0197.webp",
+      "time": 6.566667,
+      "sourceFrame": 394
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0198.webp",
+      "time": 6.6,
+      "sourceFrame": 396
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0199.webp",
+      "time": 6.633333,
+      "sourceFrame": 398
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0200.webp",
+      "time": 6.666667,
+      "sourceFrame": 400
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0201.webp",
+      "time": 6.7,
+      "sourceFrame": 402
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0202.webp",
+      "time": 6.733333,
+      "sourceFrame": 404
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0203.webp",
+      "time": 6.766667,
+      "sourceFrame": 406
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0204.webp",
+      "time": 6.8,
+      "sourceFrame": 408
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0205.webp",
+      "time": 6.833333,
+      "sourceFrame": 410
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0206.webp",
+      "time": 6.866667,
+      "sourceFrame": 412
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0207.webp",
+      "time": 6.9,
+      "sourceFrame": 414
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0208.webp",
+      "time": 6.933333,
+      "sourceFrame": 416
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0209.webp",
+      "time": 6.966667,
+      "sourceFrame": 418
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0210.webp",
+      "time": 7.0,
+      "sourceFrame": 420
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0211.webp",
+      "time": 7.033333,
+      "sourceFrame": 422
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0212.webp",
+      "time": 7.066667,
+      "sourceFrame": 424
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0213.webp",
+      "time": 7.1,
+      "sourceFrame": 426
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0214.webp",
+      "time": 7.133333,
+      "sourceFrame": 428
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0215.webp",
+      "time": 7.166667,
+      "sourceFrame": 430
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0216.webp",
+      "time": 7.2,
+      "sourceFrame": 432
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0217.webp",
+      "time": 7.233333,
+      "sourceFrame": 434
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0218.webp",
+      "time": 7.266667,
+      "sourceFrame": 436
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0219.webp",
+      "time": 7.3,
+      "sourceFrame": 438
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0220.webp",
+      "time": 7.333333,
+      "sourceFrame": 440
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0221.webp",
+      "time": 7.366667,
+      "sourceFrame": 442
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0222.webp",
+      "time": 7.4,
+      "sourceFrame": 444
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0223.webp",
+      "time": 7.433333,
+      "sourceFrame": 446
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0224.webp",
+      "time": 7.466667,
+      "sourceFrame": 448
+    },
+    {
+      "src": "assets/duo-fold/frames/frame-0225.webp",
+      "time": 7.5,
+      "sourceFrame": 450
+    }
+  ],
+  "poster": "assets/duo-fold/poster.webp",
+  "posterTime": 5,
+  "posterFrame": 150,
+  "source": {
+    "filename": "10月28日.mp4",
+    "width": 1530,
+    "height": 1080,
+    "fps": 60.0,
+    "frameCount": 451,
+    "sha256": "394b6d184d5c9c2b58378aa19f2246a6a8b895304ff7f04f7cb38cd84df0c4a9"
+  },
+  "processing": "External connected silhouette, edge alpha and white decontamination; original timeline retained. Web sequence samples every second source frame at 30 fps; VP9 master retains all 60 fps source video frames."
+}
