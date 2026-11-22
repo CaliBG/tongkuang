@@ -74,14 +74,14 @@
 
 
 .hero-actions{display:grid;gap:8px}
-.hero-actions .hero-download{display:flex;justify-content:space-between;gap:16px;min-height:44px;padding:10px 18px;border:1px solid #85888c;background:#171819;color:#f4f4f4;box-shadow:none;outline:none;font-size:14px;line-height:1.25;letter-spacing:0;font-weight:650;transition:background .15s}
-.hero-actions .hero-download:hover{background:#303234;transform:none}
-.hero-actions .hero-download:focus-visible{outline:2px solid white;outline-offset:3px}
+.contact-button.download-button{display:flex;justify-content:space-between;gap:16px;min-height:44px;padding:10px 18px;border:1px solid #85888c;background:#171819;color:#f4f4f4;box-shadow:none;outline:none;font-size:14px;line-height:1.25;letter-spacing:0;font-weight:650;transition:background .15s}
+.contact-button.download-button:hover{background:#303234;transform:none}
+.contact-button.download-button:focus-visible{outline:2px solid white;outline-offset:3px}
 .hero-subline{align-items:start;gap:16px;color:#d7dce2;font-size:clamp(21px,2.3vw,42px);font-weight:750;line-height:1.15;letter-spacing:-.03em}
 .hero-subline>span:last-child{display:block;text-align:right}
 @media(max-width:760px){
   .hero-subline{margin:14px 20px 0;font-size:clamp(16px,4.4vw,26px)}
-  .hero-actions .hero-download{min-height:44px;padding:9px 12px;font-size:12px}
+  .contact-button.download-button{min-height:44px;padding:9px 12px;font-size:12px}
 }
 .intro-titles{position:absolute;inset:0;container-type:inline-size;pointer-events:none}
 .intro-titles .intro-word{font-size:5cqw;opacity:0;will-change:transform,opacity;
