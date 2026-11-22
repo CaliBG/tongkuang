@@ -4,7 +4,7 @@
     "fps": 16,
     "width": 960,
     "height": 540,
-    "path": "assets/interactive/frames/intro",
+    "path": "assets/interactive/intro-scroll",
     "source": "assets/interactive/intro.mp4",
     "sourceSHA256": "d42b230e62ac58301f32aff5a40645bb3452669a663f9f8098e7c7eb5e159f2d",
     "mobile": {
@@ -12,14 +12,16 @@
       "width": 480,
       "height": 270,
       "columns": 4,
-      "perSheet": 8,
-      "overview": {
-        "width": 160,
-        "height": 90,
-        "columns": 10,
-        "url": "assets/interactive/mobile/intro/overview.webp",
-        "step": 2
-      }
+      "perSheet": 8
+    },
+    "perSheet": 4,
+    "columns": 2,
+    "overview": {
+      "width": 256,
+      "height": 144,
+      "columns": 10,
+      "url": "assets/interactive/intro-scroll/motion.webp",
+      "step": 1
     }
   },
   "design": {

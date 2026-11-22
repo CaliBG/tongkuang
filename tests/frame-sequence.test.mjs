@@ -126,3 +126,20 @@ test('mobile frames crop the requested cell and rewind within a sheet without a 
   assert.deepEqual(env.crops.at(-1), [0,0,480,270,0,0,480,270]);
   assert.equal(env.images.length, requests);
 });
+
+test('the motion sheet displays every target while sharp images are still downloading', async t => {
+  const env = environment(t, {overview:{width:256, height:144, columns:10, step:1, url:'preview/999.webp'}});
+  const sequence = env.sequence(.5);
+  const overview = env.images.find(image => image.url === 'preview/999.webp');
+  await overview.onload();
+  await sequence.ready;
+  assert.equal(sequence.element.dataset.frame, '52');
+  assert.equal(sequence.element.dataset.quality, 'preview');
+  sequence.seek(.25);
+  assert.equal(sequence.element.dataset.frame, '26');
+  assert.deepEqual(env.crops.at(-1), [1536,288,256,144,0,0,960,540]);
+  await env.load(52);
+  await env.load(26);
+  assert.equal(sequence.element.dataset.quality, 'detail');
+  assert.equal(sequence.element.dataset.frame, '26');
+});

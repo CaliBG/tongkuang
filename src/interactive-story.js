@@ -10,7 +10,6 @@ function ease(t) {
   for(let i=0;i<13;i++){const m=(lo+hi)/2;if(cubic(m,.42,.58)<t)lo=m;else hi=m;}
   return cubic((lo+hi)/2,0,1);
 }
-const segment=(p,a,b)=>ease(clamp((p-a)/(b-a)));
 function flatten(animations,offset=0) {
   return animations.flatMap(a=>a.animations?flatten(a.animations,offset+(a.beginTime||0)):[{...a,beginTime:offset+(a.beginTime||0)}]);
 }
@@ -60,12 +59,7 @@ async function buildDesign(root, initialProgress, onError) {
 }
 async function buildIntro(root, initialProgress, onError) {
   const clip=createFrameSequence(frameConfig(frameData.intro),initialProgress,onError);clip.element.className='intro-clip';root.append(clip.element);
-  const words=['Dual camera','Picture-in-picture','Teleprompter','Music sync'].map(text=>{const el=document.createElement('div');el.className='intro-word';el.textContent=text;root.append(el);return el;});
-  return {ready:clip.ready,render(p){
-    clip.seek(p);
-    const y=[mix(790,620,segment(p,0,.17))-160*segment(p,.18,.35)-160*segment(p,.35,.52),mix(800,620,segment(p,.18,.35))-160*segment(p,.35,.52),mix(820,620,segment(p,.35,.52)),mix(980,780,segment(p,.49,.66))];
-    words.forEach((el,i)=>{const start=[0,.18,.35,.49][i],end=[.74,.77,.82,.88][i];const fadeIn=segment(p,start,start+.13),fadeOut=segment(p,end,end+.12);el.style.opacity=String(fadeIn*(1-fadeOut));el.style.transform=`translate(-50%,-50%) translateY(${y[i]-fadeOut*110}px)`;});
-  },destroy:clip.destroy};
+  return {ready:clip.ready,render:clip.seek,destroy:clip.destroy};
 }
 export async function createStoryRenderer(scene, root, initialProgress=0, onError=(_failed=false)=>{}) {
   return scene === '0' ? buildIntro(root,initialProgress,onError) : buildDesign(root,initialProgress,onError);

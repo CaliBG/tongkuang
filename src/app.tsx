@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {motion, MotionConfig, MotionValue, useMotionValue, useReducedMotion, useScroll, useTransform} from 'framer-motion';
-import {ArrowDown, ArrowUpRight, Camera, Check, ScreenShare, Video} from 'lucide-react';
+import {ArrowUpRight, Camera, Check, ScreenShare, Video} from 'lucide-react';
 import {TestingDownloads} from './testing-downloads';
 import {DuoShowcase} from './duo-showcase';
 import imageVariants from './responsive-images.json';
@@ -35,8 +35,7 @@ function HeroSection(){return <section className="hero-section relative flex min
   <div className="hero-title-container overflow-hidden"><HeroReveal delay={.15} y={40}><h1 id="hero-title" className="hero-heading hero-title w-full whitespace-nowrap text-center font-black uppercase leading-none tracking-tight">Tongkuang</h1></HeroReveal></div>
   <div className="hero-subline"><span>同框 / DUAL CAMERA</span><span>每一面，都值得被看见。</span></div>
   <div className="hero-portrait"><HeroReveal delay={.6} y={30}><Magnet padding={150} strength={3}><div className="hero-phones"><img className="hero-phone-back" {...responsiveImage('record.webp',HERO_BACK_SIZES)} alt="同框 App 前后双摄画中画界面" width="773" height="1600" {...{fetchpriority:"high"}} decoding="async"/><img className="hero-phone-front" {...responsiveImage('dual.webp',HERO_FRONT_SIZES)} alt="同框 App 同时呈现街景与自拍画面" width="772" height="1600" {...{fetchpriority:"high"}} decoding="async"/></div></Magnet></HeroReveal></div>
-  <div className="hero-bottom flex items-end justify-between px-6 pb-8 md:px-10 md:pb-10"><HeroReveal delay={.35} y={20} className="hero-intro"><p>拍下世界。<br/>也拍下你。</p><span>眼前的风景，镜头后的心情。</span></HeroReveal><HeroReveal delay={.5} y={20} className="hero-actions"><ActionButton>下载同框</ActionButton><a href="#android" className="android-link">Android 开放测试 <ArrowUpRight size={13}/></a></HeroReveal></div>
-  <a className="scroll-cue" href="#experience" aria-label="向下探索同框"><ArrowDown size={17}/><span>向下探索</span></a>
+  <div className="hero-bottom flex items-end justify-between px-6 pb-8 md:px-10 md:pb-10"><HeroReveal delay={.35} y={20} className="hero-intro"><p>拍下世界。<br/>也拍下你。</p></HeroReveal><HeroReveal delay={.5} y={20} className="hero-actions"><ActionButton className="hero-download">下载同框</ActionButton><ActionButton className="hero-download" href="#android">Android 开放测试</ActionButton></HeroReveal></div>
 </section>}
 const previews=[{src:'dual.webp',label:'同步双拍',phone:true},{src:'story-intro.webp',label:'同一时刻 · 两个视角',phone:false},{src:'vlog.webp',label:'Vlog提词，让表达更从容',phone:true},{src:'record.webp',label:'一起，入镜',phone:true},{src:'story-design.webp',label:'从一个想法，到一款同框',phone:false}];
 function MarqueeSection(){const ref=useRef<HTMLElement>(null),x=useMotionValue(0),reverse=useTransform(x,v=>-v),reduced=useReducedMotion();useEffect(()=>{if(reduced)return;let frame=0;const update=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{if(ref.current)x.set((innerHeight-ref.current.getBoundingClientRect().top)*.3-200);});};update();window.addEventListener('scroll',update,{passive:true});window.addEventListener('resize',update);return()=>{cancelAnimationFrame(frame);window.removeEventListener('scroll',update);window.removeEventListener('resize',update);};},[reduced,x]);
@@ -63,32 +62,41 @@ function ServicesSection(){const ref=useRef<HTMLElement>(null),{scrollYProgress}
   <FadeIn><div className="section-title text-center"><p className="eyebrow">THREE MODES. YOUR STORY.</p><h2 className="font-black uppercase tracking-tight">你的主场。</h2><p>三种方式，记录故事的每一面。</p></div></FadeIn><div className="mode-stack">{modes.map((item,index)=><ModeCard item={item} index={index} progress={scrollYProgress} key={item.number}/>)}</div>
 </section>}
 type StoryRenderer={ready?:Promise<unknown>;render:(progress:number)=>void;destroy:()=>void};
-function ScrollScene({scene,number,title,subtitle}:{scene:'0'|'2';number:string;title:string;subtitle:string}){
+function ScrollScene({scene,number,title}:{scene:'0'|'2';number:string;title:string}){
   const sectionRef=useRef<HTMLElement>(null),stageRef=useRef<HTMLDivElement>(null),viewportRef=useRef<HTMLDivElement>(null);
   const rendererRef=useRef<StoryRenderer|null>(null),progressRef=useRef(0);
-  const [percent,setPercent]=useState(0),[ready,setReady]=useState(false),[error,setError]=useState(false),[retry,setRetry]=useState(0);
+  const [ready,setReady]=useState(false),[error,setError]=useState(false),[retry,setRetry]=useState(0);
   const reduced=useReducedMotion();
   useEffect(()=>{
     const section=sectionRef.current;if(!section)return;
     // Use the actual viewport geometry, including Safari's changing browser
     // bars. No media playback gesture or native ScrollTimeline is required.
+    const nativeWords=CSS.supports('animation-timeline: --intro') && CSS.supports('animation-range: contain 4% contain 96%');
     const update=()=>{
       const travel=Math.max(1,section.offsetHeight-window.innerHeight);
       const raw=-section.getBoundingClientRect().top/travel;
       const value=reduced?1:Math.min(1,Math.max(0,(raw-.04)/.92));
       if(value===progressRef.current)return;
-      progressRef.current=value;rendererRef.current?.render(value);setPercent(Math.round(value*100));
+      progressRef.current=value;
+      if(scene==='0' && (!nativeWords || reduced))stageRef.current?.style.setProperty('--intro-delay',`${-value}s`);
+      rendererRef.current?.render(value);
     };
     update();
-    let frame=0;
-    const schedule=()=>{if(!frame)frame=requestAnimationFrame(()=>{frame=0;update();});};
-    const sizes=new ResizeObserver(schedule);sizes.observe(section);
-    window.addEventListener('scroll',schedule,{passive:true});
-    window.addEventListener('resize',schedule);
-    window.addEventListener('pageshow',schedule);
-    window.visualViewport?.addEventListener('resize',schedule);
-    return()=>{cancelAnimationFrame(frame);sizes.disconnect();window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);window.removeEventListener('pageshow',schedule);window.visualViewport?.removeEventListener('resize',schedule);};
-  },[reduced]);
+    // Scroll events keep arriving in WebKit views even when rAF is throttled.
+    // The renderer skips repeated frame indices and never sets React scroll state.
+    const sizes=new ResizeObserver(update);sizes.observe(section);
+    window.addEventListener('scroll',update,{passive:true});
+    window.addEventListener('resize',update);
+    window.addEventListener('pageshow',update);
+    window.visualViewport?.addEventListener('resize',update);
+    return()=>{
+      sizes.disconnect();
+      window.removeEventListener('scroll',update);
+      window.removeEventListener('resize',update);
+      window.removeEventListener('pageshow',update);
+      window.visualViewport?.removeEventListener('resize',update);
+    };
+  },[scene,reduced]);
   useEffect(()=>{
     const section=sectionRef.current,stage=stageRef.current,viewport=viewportRef.current;if(!section||!stage||!viewport)return;
     let disposed=false,pending=false,root:HTMLDivElement|null=null,renderer:StoryRenderer|null=null;
@@ -99,8 +107,10 @@ function ScrollScene({scene,number,title,subtitle}:{scene:'0'|'2';number:string;
       try {
         const {createStoryRenderer}=await import('./interactive-story.js');
         if(disposed)return;
+        let lastError:boolean|undefined;
         renderer=await createStoryRenderer(scene,root,progressRef.current,(failed=false)=>{
-          if(disposed)return;
+          if(disposed || lastError===failed)return;
+          lastError=failed;
           setError(failed);
           if(scene==='0' && !failed)setReady(true);
         });
@@ -121,13 +131,12 @@ function ScrollScene({scene,number,title,subtitle}:{scene:'0'|'2';number:string;
     return()=>{disposed=true;sizes.disconnect();visibility.disconnect();rendererRef.current=null;renderer?.destroy();root?.remove();};
   },[scene,retry]);
   return <section ref={sectionRef} className={`scroll-scene ${reduced?'scroll-scene-reduced':''}`} data-scene={scene} aria-labelledby={`scene-title-${scene}`}>
-    <div className="scroll-scene-sticky"><div className="scroll-scene-heading"><div><p className="eyebrow">{number} / {scene==='0'?'TWO CAMERAS. ONE MOMENT.':'THE MAKING OF TONGKUANG.'}</p><h2 id={`scene-title-${scene}`} className="hero-heading">{title}</h2></div><p>{subtitle}<span>{reduced?'静态展示 · 已减少动态效果':'下滑推进 · 上滑倒回'}</span></p></div>
-      <div ref={stageRef} className="scroll-stage" data-progress={(percent/100).toFixed(2)} aria-busy={!ready&&!error}><img className="scroll-poster" {...responsiveImage(scene==='0'?'story-intro.webp':'story-design.webp','(max-width: 760px) calc(100vw - 40px), min(1280px, calc(100vw - 80px))')} loading="lazy" decoding="async" {...{fetchpriority:"low"}} width="1280" height="720" alt={scene==='0'?'前后镜头同时呈现的滑板实拍画面':'同框从手机画面展开为完整的设计全景'} hidden={ready}/><div className="scroll-viewport" ref={viewportRef} aria-hidden="true"/>{error&&<button className="scroll-retry" onClick={()=>setRetry(retry+1)}>重新载入画面</button>}</div>
-      <div className="scroll-scene-bottom"><span className="scroll-direction"><ArrowDown size={15}/>{error?'已保留当前画面，点按重试继续载入':!ready?'正在载入画面…':percent>=100?'继续下滑，探索下一页':'让画面跟着滚动展开'}</span><div className="scroll-progress" role="progressbar" aria-label={`${title}动画进度`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent}><i style={{transform:`scaleX(${percent/100})`}}/></div><span className="scroll-percentage">{percent}%</span><a href={`story/#${scene}`} target="_blank" rel="noopener" aria-label={`在独立窗口查看${title}的原始演示`}>原始演示 <ArrowUpRight size={12}/></a></div>
+    <div className="scroll-scene-sticky"><div className="scroll-scene-heading"><div><p className="eyebrow">{number} / {scene==='0'?'TWO CAMERAS. ONE MOMENT.':'THE MAKING OF TONGKUANG.'}</p><h2 id={`scene-title-${scene}`} className="hero-heading">{title}</h2></div></div>
+      <div ref={stageRef} className="scroll-stage" aria-busy={!ready&&!error}><img className="scroll-poster" {...responsiveImage(scene==='0'?'story-intro.webp':'story-design.webp','(max-width: 760px) calc(100vw - 40px), min(1280px, calc(100vw - 80px))')} loading="lazy" decoding="async" {...{fetchpriority:"low"}} width="1280" height="720" alt={scene==='0'?'前后镜头同时呈现的滑板实拍画面':'同框从手机画面展开为完整的设计全景'} hidden={ready}/><div className="scroll-viewport" ref={viewportRef} aria-hidden="true"/>{scene==='0' && <div className="intro-titles" aria-hidden="true">{['Dual camera','Picture-in-picture','Teleprompter','Music sync'].map(word=><span className="intro-word" key={word}>{word}</span>)}</div>}{error&&<button className="scroll-retry" onClick={()=>setRetry(retry+1)}>重新载入画面</button>}</div>
     </div>
   </section>;
 }
-function ScrollShowcase(){return <div id="experience" className="scroll-showcase"><ScrollScene scene="0" number="01" title="同一刻，两面精彩。" subtitle="眼前的动作，镜头后的心情。"/><ScrollScene scene="2" number="02" title="展开同框的每一面。" subtitle="从一幅画面，走进完整的设计。"/></div>}
+function ScrollShowcase(){return <div id="experience" className="scroll-showcase"><ScrollScene scene="0" number="01" title="同一刻，两面精彩。"/><ScrollScene scene="2" number="02" title="展开同框的每一面。"/></div>}
 function UpdatesSection(){return <section id="updates" className="updates-section px-5 py-20 sm:px-8 md:px-10 md:py-32" aria-labelledby="updates-title">
   <div className="updates-heading"><p className="eyebrow">2026.10.27 / IN PROGRESS</p><h2 id="updates-title" className="hero-heading">最近的同框。</h2><p>把切换做轻，把表达留下。<br/>每个平台，都在认真打磨。</p></div>
   <div className="update-rows">

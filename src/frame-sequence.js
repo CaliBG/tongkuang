@@ -29,6 +29,7 @@ export function createFrameSequence(config, initialProgress = 0, onError = (_fai
     const cell = Math.floor(target / step);
     context.drawImage(overviewImage, (cell % columns) * width, Math.floor(cell / columns) * height,
       width, height, 0, 0, canvas.width, canvas.height);
+    if(!settled){settled=true;resolveReady();onError(false);}
     painted = -1;
     canvas.dataset.frame = String(cell * step);
     canvas.dataset.quality = 'preview';
@@ -61,7 +62,7 @@ export function createFrameSequence(config, initialProgress = 0, onError = (_fai
     canvas.dataset.quality = 'detail';
     canvas.dataset.frame = String(index);
     onError(false);
-    if (!settled) { settled = true; resolveReady(); loadOverview(); }
+    if (!settled) { settled = true; resolveReady(); }
   }
   function trim() {
     // Evict decoded frames farthest from the requested position. In-flight
@@ -125,6 +126,7 @@ export function createFrameSequence(config, initialProgress = 0, onError = (_fai
       image.src = `${config.path}/${String(index).padStart(3, '0')}.webp`;
     }
   }
+  loadOverview();
   schedule();
   return {
     element: canvas,
@@ -132,6 +134,7 @@ export function createFrameSequence(config, initialProgress = 0, onError = (_fai
     seek(progress) {
       if (disposed) return;
       const next = Math.round(clamp(progress) * (config.count - 1));
+      if(next === target)return;
       if (next !== target) {
         direction = Math.sign(next - target);
         target = next;
