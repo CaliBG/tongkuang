@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createFrameSequence} from '../src/frame-sequence.js';
 
-function environment(t) {
-  const images = [], draws = [];
+function environment(t, options = {}) {
+  const images = [], draws = [], crops = [];
   const previousImage = globalThis.Image, previousDocument = globalThis.document;
   class DeferredImage {
     naturalWidth = 960;
@@ -17,11 +17,11 @@ function environment(t) {
     createElement(name) {
       assert.equal(name, 'canvas');
       return {dataset: {}, setAttribute() {}, getContext: () => ({
-        drawImage(image) { draws.push(Number(image.url.match(/(\d+)\.webp$/)[1])); }
+        drawImage(image, ...args) { crops.push(args); draws.push(Number(image.url.match(/(\d+)\.webp$/)[1])); }
       })};
     }
   };
-  const config = {width: 960, height: 540, path: 'frames', count: 105};
+  const config = {width: 960, height: 540, path: 'frames', count: 105, ...options};
   const live = new Set();
   t.after(() => {
     live.forEach(sequence => sequence.destroy());
@@ -29,7 +29,7 @@ function environment(t) {
     globalThis.document = previousDocument;
   });
   return {
-    images, draws,
+    images, draws, crops,
     sequence(progress = 0, onError) {
       const sequence = createFrameSequence(config, progress, onError);
       live.add(sequence);
@@ -110,4 +110,19 @@ test('destroy cancels pending work and releases the canvas backing store', async
   assert.equal(env.images.filter(image => image.onload).length, 0);
   sequence.seek(1);
   assert.deepEqual(env.draws, [0]);
+});
+
+
+test('mobile frames crop the requested cell and rewind within a sheet without a new request', async t => {
+  const env = environment(t, {width:480, height:270, columns:4, perSheet:8});
+  const sequence = env.sequence(1);
+  assert.equal(env.images.length, 1, 'the first requested frame has exclusive bandwidth');
+  await env.load(13);
+  await sequence.ready;
+  assert.equal(sequence.element.dataset.frame, '104');
+  assert.deepEqual(env.crops.at(-1), [1440,270,480,270,0,0,480,270]);
+  const requests = env.images.length;
+  sequence.seek(97/104);
+  assert.deepEqual(env.crops.at(-1), [0,0,480,270,0,0,480,270]);
+  assert.equal(env.images.length, requests);
 });

@@ -62,7 +62,7 @@ function ModeCard({item,index,progress}: {item:typeof modes[number];index:number
 function ServicesSection(){const ref=useRef<HTMLElement>(null),{scrollYProgress}=useScroll({target:ref,offset:['start start','end end']});return <section className="services-section relative rounded-t-[40px] bg-white px-5 py-20 text-ink sm:rounded-t-[50px] sm:px-8 sm:py-24 md:rounded-t-[60px] md:px-10 md:py-32" id="modes" ref={ref}>
   <FadeIn><div className="section-title text-center"><p className="eyebrow">THREE MODES. YOUR STORY.</p><h2 className="font-black uppercase tracking-tight">你的主场。</h2><p>三种方式，记录故事的每一面。</p></div></FadeIn><div className="mode-stack">{modes.map((item,index)=><ModeCard item={item} index={index} progress={scrollYProgress} key={item.number}/>)}</div>
 </section>}
-type StoryRenderer={render:(progress:number)=>void;destroy:()=>void};
+type StoryRenderer={ready?:Promise<unknown>;render:(progress:number)=>void;destroy:()=>void};
 function ScrollScene({scene,number,title,subtitle}:{scene:'0'|'2';number:string;title:string;subtitle:string}){
   const sectionRef=useRef<HTMLElement>(null),stageRef=useRef<HTMLDivElement>(null),viewportRef=useRef<HTMLDivElement>(null);
   const rendererRef=useRef<StoryRenderer|null>(null),progressRef=useRef(0);
@@ -76,15 +76,18 @@ function ScrollScene({scene,number,title,subtitle}:{scene:'0'|'2';number:string;
       const travel=Math.max(1,section.offsetHeight-window.innerHeight);
       const raw=-section.getBoundingClientRect().top/travel;
       const value=reduced?1:Math.min(1,Math.max(0,(raw-.04)/.92));
+      if(value===progressRef.current)return;
       progressRef.current=value;rendererRef.current?.render(value);setPercent(Math.round(value*100));
     };
     update();
-    const sizes=new ResizeObserver(update);sizes.observe(section);
-    window.addEventListener('scroll',update,{passive:true});
-    window.addEventListener('resize',update);
-    window.addEventListener('pageshow',update);
-    window.visualViewport?.addEventListener('resize',update);
-    return()=>{sizes.disconnect();window.removeEventListener('scroll',update);window.removeEventListener('resize',update);window.removeEventListener('pageshow',update);window.visualViewport?.removeEventListener('resize',update);};
+    let frame=0;
+    const schedule=()=>{if(!frame)frame=requestAnimationFrame(()=>{frame=0;update();});};
+    const sizes=new ResizeObserver(schedule);sizes.observe(section);
+    window.addEventListener('scroll',schedule,{passive:true});
+    window.addEventListener('resize',schedule);
+    window.addEventListener('pageshow',schedule);
+    window.visualViewport?.addEventListener('resize',schedule);
+    return()=>{cancelAnimationFrame(frame);sizes.disconnect();window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);window.removeEventListener('pageshow',schedule);window.visualViewport?.removeEventListener('resize',schedule);};
   },[reduced]);
   useEffect(()=>{
     const section=sectionRef.current,stage=stageRef.current,viewport=viewportRef.current;if(!section||!stage||!viewport)return;
@@ -93,9 +96,28 @@ function ScrollScene({scene,number,title,subtitle}:{scene:'0'|'2';number:string;
     const resize=()=>{if(root)root.style.transform=`scale(${stage.clientWidth/1920})`;};
     const sizes=new ResizeObserver(resize);sizes.observe(stage);
     const load=async()=>{if(pending||disposed)return;pending=true;root=document.createElement('div');root.className='story-canvas';root.style.visibility='hidden';viewport.append(root);resize();
-      try{const {createStoryRenderer}=await import('./interactive-story.js');if(disposed)return;renderer=await createStoryRenderer(scene,root,progressRef.current,(failed=false)=>{if(!disposed)setError(failed);});if(disposed){renderer.destroy();root.remove();return;}rendererRef.current=renderer;renderer.render(progressRef.current);root.style.visibility='visible';setReady(true);}
-      catch{if(!disposed){root?.remove();root=null;setError(true);}}};
-    const visibility=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){load();visibility.disconnect();}},{rootMargin:'200px 0px'});visibility.observe(stage);
+      try {
+        const {createStoryRenderer}=await import('./interactive-story.js');
+        if(disposed)return;
+        renderer=await createStoryRenderer(scene,root,progressRef.current,(failed=false)=>{
+          if(disposed)return;
+          setError(failed);
+          if(scene==='0' && !failed)setReady(true);
+        });
+        if(disposed){renderer.destroy();return;}
+        rendererRef.current=renderer;
+        renderer.render(progressRef.current);
+        root.style.visibility='visible';
+        if(renderer.ready)await renderer.ready;
+        if(!disposed)setReady(true);
+      } catch {
+        if(!disposed){
+          if(!renderer){root?.remove();root=null;}
+          setError(true);
+        }
+      }
+    };
+    const visibility=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){load();visibility.disconnect();}},{rootMargin:scene==='0'?'850px 0px':'200px 0px'});visibility.observe(stage);
     return()=>{disposed=true;sizes.disconnect();visibility.disconnect();rendererRef.current=null;renderer?.destroy();root?.remove();};
   },[scene,retry]);
   return <section ref={sectionRef} className={`scroll-scene ${reduced?'scroll-scene-reduced':''}`} data-scene={scene} aria-labelledby={`scene-title-${scene}`}>

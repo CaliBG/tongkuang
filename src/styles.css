@@ -68,3 +68,6 @@
 .update-rows p{font-size:14px;line-height:1.95;color:#959da7;max-width:620px}
 .update-rows a{display:inline-flex;align-items:center;gap:8px;font-size:12px;margin-top:21px;color:#d7e2ea}
 @media(max-width:760px){.updates-section{grid-template-columns:1fr;gap:35px}.updates-heading>p:last-child{font-size:13px;margin-top:18px}.update-rows h3{font-size:23px}.update-rows p{font-size:13px}.update-status{font-size:10px}.update-rows article{padding:23px 0 27px}}
+
+[data-scene="0"] .story-canvas{background:transparent}
+.intro-clip:not([data-frame]){visibility:hidden}

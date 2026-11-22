@@ -14,11 +14,14 @@ const segment=(p,a,b)=>ease(clamp((p-a)/(b-a)));
 function flatten(animations,offset=0) {
   return animations.flatMap(a=>a.animations?flatten(a.animations,offset+(a.beginTime||0)):[{...a,beginTime:offset+(a.beginTime||0)}]);
 }
+function frameConfig(sequence) {
+  return window.matchMedia('(max-width: 760px)').matches ? {...sequence, ...sequence.mobile} : sequence;
+}
 let designData;
 async function buildDesign(root, initialProgress, onError) {
   designData ||= fetch('assets/interactive/design.json').then(r=>{if(!r.ok)throw Error('Design unavailable');return r.json();}).catch(e=>{designData=null;throw e;});
   const data=await designData, renders=[], pictures=[];
-  const clip=createFrameSequence(frameData.design,clamp((initialProgress-.66)/.34),onError);clip.element.className='design-clip';
+  const clip=createFrameSequence(frameConfig(frameData.design),clamp((initialProgress-.66)/.34),onError);clip.element.className='design-clip';
   function layer(node,parent) {
     const el=document.createElement('div'),s=node.initialState,ax=s.anchorPoint?.pointX??.5,ay=s.anchorPoint?.pointY??.5;
     el.className='keynote-layer';
@@ -56,10 +59,9 @@ async function buildDesign(root, initialProgress, onError) {
   return {render(p){renders.forEach(render=>render(p*data.duration));clip.seek(clamp((p-.66)/.34));},destroy:clip.destroy};
 }
 async function buildIntro(root, initialProgress, onError) {
-  const clip=createFrameSequence(frameData.intro,initialProgress,onError);clip.element.className='intro-clip';root.append(clip.element);
+  const clip=createFrameSequence(frameConfig(frameData.intro),initialProgress,onError);clip.element.className='intro-clip';root.append(clip.element);
   const words=['Dual camera','Picture-in-picture','Teleprompter','Music sync'].map(text=>{const el=document.createElement('div');el.className='intro-word';el.textContent=text;root.append(el);return el;});
-  try {await clip.ready;} catch(error) {clip.destroy();throw error;}
-  return {render(p){
+  return {ready:clip.ready,render(p){
     clip.seek(p);
     const y=[mix(790,620,segment(p,0,.17))-160*segment(p,.18,.35)-160*segment(p,.35,.52),mix(800,620,segment(p,.18,.35))-160*segment(p,.35,.52),mix(820,620,segment(p,.35,.52)),mix(980,780,segment(p,.49,.66))];
     words.forEach((el,i)=>{const start=[0,.18,.35,.49][i],end=[.74,.77,.82,.88][i];const fadeIn=segment(p,start,start+.13),fadeOut=segment(p,end,end+.12);el.style.opacity=String(fadeIn*(1-fadeOut));el.style.transform=`translate(-50%,-50%) translateY(${y[i]-fadeOut*110}px)`;});
