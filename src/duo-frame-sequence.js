@@ -13,19 +13,34 @@ export function createDuoFrameSequence(config, {onFrame = (_index) => {}, onStat
   const cacheLimit = 20, parallelLimit = 4;
   let target = -1, painted = -1, direction = 1, queue = [], disposed = false, state = 'idle';
 
+  let atlas = null, layout = null, loadingImage = null, useAtlas = !!config.overview;
+  let detailTimer, atlasTimer;
+
   function setState(next) {
     if (state === next || disposed) return;
     state = next;
     onState(next);
   }
   function paint(index) {
-    if (disposed || index !== target || !cache.has(index)) return false;
-    if (index !== painted) {
+    if (disposed || index !== target || index < 0) return false;
+    const detail = cache.get(index);
+    if (!detail && !atlas) return false;
+    const quality = detail ? 'detail' : layout.step > 1 ? 'preview' : 'motion';
+    const visibleIndex = detail ? index : Math.floor(index / layout.step) * layout.step;
+    if (painted !== visibleIndex || canvas.dataset.quality !== quality) {
       context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(cache.get(index), 0, 0, canvas.width, canvas.height);
-      painted = index;
-      canvas.dataset.frame = String(index);
-      onFrame(index);
+      if (detail) {
+        context.drawImage(detail, 0, 0, canvas.width, canvas.height);
+      } else {
+        const {width, height, columns, step} = layout;
+        const cell = visibleIndex / step;
+        context.drawImage(atlas, (cell % columns) * width, Math.floor(cell / columns) * height,
+          width, height, 0, 0, canvas.width, canvas.height);
+      }
+      painted = visibleIndex;
+      canvas.dataset.frame = String(visibleIndex);
+      canvas.dataset.quality = quality;
+      onFrame(visibleIndex);
     }
     setState('ready');
     return true;
@@ -42,7 +57,7 @@ export function createDuoFrameSequence(config, {onFrame = (_index) => {}, onStat
       pending.delete(obsolete);
     }
     queue = [target];
-    for (let distance = 1; distance <= 10; distance++) {
+    for (let distance = 1; !useAtlas && distance <= 10; distance++) {
       queue.push(target + direction * distance);
       if (distance <= 3) queue.push(target - direction * distance);
     }
@@ -73,7 +88,7 @@ export function createDuoFrameSequence(config, {onFrame = (_index) => {}, onStat
         if (disposed) return;
         if (error) {
           failed.add(index);
-          if (index === target) setState('error');
+          if (index === target && !atlas) setState('error');
         } else {
           cache.set(index, image);
           trim();
@@ -92,6 +107,39 @@ export function createDuoFrameSequence(config, {onFrame = (_index) => {}, onStat
       image.src = config.frames[index].src;
     }
   }
+  function loadSheet(sheet) {
+    const image = new Image();
+    loadingImage = image;
+    image.decoding = 'async';
+    function finish(decoded) {
+      if (disposed || loadingImage !== image) return;
+      clearTimeout(atlasTimer);
+      image.onload = image.onerror = null;
+      loadingImage = null;
+      if (decoded) {
+        atlas = image;
+        layout = sheet;
+        paint(target);
+      } else {
+        image.removeAttribute('src');
+      }
+      if (sheet === config.preview) loadSheet(config.overview);
+      else if (!atlas) {
+        useAtlas = false;
+        if (target >= 0) schedule();
+      }
+    }
+    image.onload = async () => {
+      try {
+        if (image.decode) await image.decode();
+        finish(!!image.naturalWidth);
+      } catch { finish(false); }
+    };
+    image.onerror = () => finish(false);
+    atlasTimer = setTimeout(() => finish(false), 12000);
+    image.src = sheet.src;
+  }
+  if (useAtlas) loadSheet(config.preview ?? config.overview);
   return {
     element: canvas,
     get index() { return painted; },
@@ -99,11 +147,15 @@ export function createDuoFrameSequence(config, {onFrame = (_index) => {}, onStat
     seek(index) {
       if (disposed) return;
       const next = limit(Math.round(index), 0, config.frames.length - 1);
-      if (target >= 0 && next !== target) direction = Math.sign(next - target);
+      if (target === next) return;
+      const first = target < 0;
+      if (!first) direction = Math.sign(next - target);
       target = next;
       trim();
       if (!paint(target)) setState(failed.has(target) ? 'error' : 'loading');
-      schedule();
+      clearTimeout(detailTimer);
+      if (!useAtlas || first) schedule();
+      else if (!cache.has(target)) detailTimer = setTimeout(schedule, 100);
     },
     retry() {
       if (disposed || target < 0) return;
@@ -113,6 +165,10 @@ export function createDuoFrameSequence(config, {onFrame = (_index) => {}, onStat
     },
     destroy() {
       disposed = true;
+      clearTimeout(detailTimer);
+      clearTimeout(atlasTimer);
+      if (loadingImage) { loadingImage.onload = loadingImage.onerror = null; loadingImage.removeAttribute('src'); }
+      loadingImage = atlas = null;
       pending.forEach(cancel => cancel());
       pending.clear();
       cache.clear();

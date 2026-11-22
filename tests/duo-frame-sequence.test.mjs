@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createDuoFrameSequence} from '../src/duo-frame-sequence.js';
 
-function environment(t) {
+function environment(t, options = {}) {
   const images = [], operations = [], states = [], presented = [];
   const previousImage = globalThis.Image, previousDocument = globalThis.document;
   class DeferredImage {
@@ -26,7 +26,7 @@ function environment(t) {
       }};
     }
   };
-  const config = {width:960, height:678, frames:Array.from({length:226}, (_,i) => ({src:`frames/frame-${String(i).padStart(4,'0')}.webp`,time:i/30}))};
+  const config = {width:960, height:678, frames:Array.from({length:226}, (_,i) => ({src:`frames/frame-${String(i).padStart(4,'0')}.webp`,time:i/30})), ...options};
   const sequence = createDuoFrameSequence(config, {onFrame:index => presented.push(index), onState:state => states.push(state)});
   t.after(() => { sequence.destroy(); globalThis.Image = previousImage; globalThis.document = previousDocument; });
   function imageAt(index) { return images.findLast(image => image.url === config.frames[index].src); }
@@ -106,4 +106,25 @@ test('presentation remains tied to loaded frames and disposal prevents later red
   if(late) await late();
   e.sequence.seek(0);
   assert.equal(e.operations.length,prior);
+});
+
+
+test('the two motion sheets present the latest scroll position before the full-size frame arrives', async t => {
+  const preview = {src:'sheet-0300.webp', width:144, height:102, columns:6, step:2};
+  const overview = {src:'sheet-0301.webp', width:320, height:226, columns:8, step:1};
+  const e = environment(t, {preview, overview});
+  e.sequence.seek(23);
+  await e.images.find(image=>image.url===preview.src).onload();
+  assert.equal(e.sequence.index,22);
+  e.sequence.seek(40);
+  assert.equal(e.sequence.index,40);
+  e.sequence.seek(23);
+  await e.images.find(image=>image.url===overview.src).onload();
+  assert.equal(e.sequence.index,23);
+  assert.equal(e.sequence.element.dataset.quality,'motion');
+  await e.load(23);
+  assert.equal(e.sequence.element.dataset.quality,'detail');
+  e.sequence.seek(0);
+  assert.equal(e.sequence.index,0);
+  assert.deepEqual(e.operations.slice(-2),[['clear',0,0,960,678],['draw',301]]);
 });

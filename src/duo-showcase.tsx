@@ -2,37 +2,16 @@ import React, {useEffect, useRef, useState} from 'react';
 import {createDuoFrameSequence} from './duo-frame-sequence';
 import './duo-showcase.css';
 
-type DuoManifest = {
-  width: number; height: number; duration: number; fps: number; frameCount: number;
-  frames: {src: string; time: number; sourceFrame: number}[];
+// The original opening runs from frame 24 (closed) through 94 (open) at 30 fps.
+const openingFrames = Array.from({length:71}, (_, offset) => ({
+  src:`assets/duo-fold/frames/frame-${String(24 + offset).padStart(4, '0')}.webp`
+}));
+const opening = {
+  width:960, height:678, frames:openingFrames,
+  preview:{src:'assets/duo-fold/opening-preview.webp', width:144, height:102, columns:6, step:2}
 };
-const CLOSED_POSTER = 'assets/duo-fold/frames/frame-0024.webp';
-const OPEN_POSTER = 'assets/duo-fold/frames/frame-0094.webp';
-const MANIFEST = 'assets/duo-fold/manifest.json';
-// This portion contains one opening motion. Reversing scroll reverses the same
-// source frames, rather than playing the source video's later closing motion.
-const OPENING_START = 0.8;
-const OPENING_END = 94 / 30;
-
-function validateManifest(data: DuoManifest): DuoManifest {
-  if (!data || !Number.isFinite(data.width) || !Number.isFinite(data.height) ||
-      !Number.isFinite(data.duration) || data.duration <= OPENING_END || !Array.isArray(data.frames) || data.frames.length < 2 ||
-      data.frames.some((frame, index) => !/^assets\/duo-fold\/frames\/[\w-]+\.webp$/.test(frame.src) ||
-        !Number.isFinite(frame.time) || frame.time < 0 || (index > 0 && frame.time < data.frames[index - 1].time))) {
-    throw new Error('Invalid Duo sequence');
-  }
-  return data;
-}
-
-function nearestFrame(frames: DuoManifest['frames'], time: number) {
-  let low = 0, high = frames.length - 1;
-  while (low < high) {
-    const middle = Math.floor((low + high) / 2);
-    if (frames[middle].time < time) low = middle + 1;
-    else high = middle;
-  }
-  return low > 0 && time - frames[low - 1].time < frames[low].time - time ? low - 1 : low;
-}
+const CLOSED_POSTER = openingFrames[0].src;
+const OPEN_POSTER = openingFrames[openingFrames.length - 1].src;
 
 export function DuoShowcase() {
   const section = useRef<HTMLElement>(null), sticky = useRef<HTMLDivElement>(null), viewport = useRef<HTMLDivElement>(null);
@@ -53,53 +32,49 @@ export function DuoShowcase() {
     if (!('IntersectionObserver' in window)) { setNear(true); return; }
     const observer = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) { setNear(true); observer.disconnect(); }
-    }, {rootMargin: '300px'});
+    }, {rootMargin: '125% 0px'});
     observer.observe(section.current);
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
     if (!near || reduced || !viewport.current) return;
-    let cancelled = false, frameRequest = 0;
-    let renderer: ReturnType<typeof createDuoFrameSequence> | null = null;
-    let data: DuoManifest | null = null;
-    const controller = new AbortController();
-    function update() {
-      frameRequest = 0;
-      if (cancelled || !renderer || !data || !section.current || !sticky.current) return;
-      const bounds = section.current.getBoundingClientRect();
-      const travel = Math.max(1, section.current.offsetHeight - sticky.current.offsetHeight);
-      const progress = Math.min(1, Math.max(0, -bounds.top / travel));
-      const target = nearestFrame(data.frames, OPENING_START + progress * (OPENING_END - OPENING_START));
-      renderer.seek(target);
-    }
-    function schedule() {
-      if (frameRequest) return;
-      frameRequest = requestAnimationFrame(update);
+    let renderer: ReturnType<typeof createDuoFrameSequence>;
+    let presented = false;
+    try {
+      const compact = matchMedia('(max-width: 760px)').matches;
+      const overview = compact
+        ? {src:'assets/duo-fold/opening-224.webp', width:224, height:158, columns:8, step:1}
+        : {src:'assets/duo-fold/opening-320.webp', width:320, height:226, columns:8, step:1};
+      renderer = createDuoFrameSequence({...opening, overview}, {
+        onFrame: () => {
+          if (!presented) { presented = true; setHasFrame(true); }
+        },
+        onState: (state: string) => setError(state === 'error')
+      });
+    } catch {
+      setError(true);
+      return;
     }
     setError(false);
-    fetch(MANIFEST, {signal: controller.signal})
-      .then(response => { if (!response.ok) throw new Error('Duo manifest unavailable'); return response.json(); })
-      .then((raw: DuoManifest) => {
-        data = validateManifest(raw);
-        if (cancelled || !viewport.current) return;
-        renderer = createDuoFrameSequence(data, {
-          onFrame: () => { if (!cancelled) setHasFrame(true); },
-          onState: (next: string) => { if (!cancelled) setError(next === 'error'); }
-        });
-        viewport.current.replaceChildren(renderer.element);
-        window.addEventListener('scroll', schedule, {passive:true});
-        window.addEventListener('resize', schedule, {passive:true});
-        update();
-      })
-      .catch(failure => { if (!cancelled && failure.name !== 'AbortError') setError(true); });
+    viewport.current.replaceChildren(renderer.element);
+    function update() {
+      if (!section.current || !sticky.current) return;
+      const travel = Math.max(1, section.current.offsetHeight - sticky.current.offsetHeight);
+      const progress = Math.min(1, Math.max(0, -section.current.getBoundingClientRect().top / travel));
+      renderer.seek(Math.round(progress * (openingFrames.length - 1)));
+    }
+    const sizes = new ResizeObserver(update);
+    sizes.observe(section.current!);
+    sizes.observe(sticky.current!);
+    window.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('pageshow', update);
+    update();
     return () => {
-      cancelled = true;
-      controller.abort();
-      cancelAnimationFrame(frameRequest);
-      window.removeEventListener('scroll', schedule);
-      window.removeEventListener('resize', schedule);
-      renderer?.destroy();
+      sizes.disconnect();
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('pageshow', update);
+      renderer.destroy();
       setHasFrame(false);
     };
   }, [near, reduced]);
@@ -108,20 +83,20 @@ export function DuoShowcase() {
     <div className="duo-sticky" ref={sticky}>
       <div className="duo-layout">
         <header className="duo-copy">
-          <p className="eyebrow">IPHONE DUO / 同框</p>
+
           <h2 id="duo-title" className="hero-heading">展开，<br/>记录更多。</h2>
-          <p className="duo-description">从掌心的一面，到展开的整个视野。</p>
-          <p className="duo-instruction">随着滑动，展开同框。</p>
+
+
         </header>
         <div className="duo-visual">
-          <div className="duo-stage" role="img" aria-label="随页面滚动，iPhone Duo 从外屏展开为同框内屏；反向滚动则收拢">
+          <div className="duo-stage" role="img" aria-label="iPhone Duo 开合演示，向下滚动展开，向上滚动收拢">
             <picture className="duo-poster" hidden={hasFrame && !reduced}>
               <source media="(prefers-reduced-motion: reduce)" srcSet={OPEN_POSTER}/>
               <img src={CLOSED_POSTER} width="960" height="678" alt="" loading="lazy" decoding="async"/>
             </picture>
             <div className="duo-canvas" ref={viewport} hidden={!hasFrame || reduced}/>
           </div>
-          <p className="duo-caption">开发版本演示 · 画面使用演示素材</p>
+
           {error && !reduced && <p className="duo-load-error" role="status">演示暂未载入，请刷新页面重试。</p>}
         </div>
       </div>
